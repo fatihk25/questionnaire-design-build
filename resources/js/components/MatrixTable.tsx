@@ -39,6 +39,15 @@ export function MatrixTable({
     [onAnswer]
   );
 
+  // Guard: if questions is not an array, show loading
+  if (!Array.isArray(questions)) {
+    return (
+      <div className="flex flex-col items-center justify-center gap-4 py-12">
+        <p className="text-gray-500 dark:text-gray-400">Memuat pertanyaan...</p>
+      </div>
+    );
+  }
+
   // Error state — show error message with retry button
   if (error) {
     return (
@@ -68,11 +77,12 @@ export function MatrixTable({
   }
 
   // Calculate completion counts
-  const totalQuestions = questions.length;
-  const probabilityRated = questions.filter(
+  const totalQuestions = (questions ?? []).length;
+  const safeQuestions = questions ?? [];
+  const probabilityRated = safeQuestions.filter(
     (q) => answers[String(q.id)]?.probability != null
   ).length;
-  const impactRated = questions.filter(
+  const impactRated = safeQuestions.filter(
     (q) => answers[String(q.id)]?.impact != null
   ).length;
 
@@ -117,7 +127,7 @@ export function MatrixTable({
             </tr>
           </thead>
           <tbody>
-            {questions.map((question, index) => {
+            {safeQuestions.map((question, index) => {
               const qId = String(question.id);
               const answer = answers[qId] || { probability: null, impact: null };
               const isEven = index % 2 === 0;
@@ -188,7 +198,7 @@ export function MatrixTable({
 
       {/* Mobile Card Layout (visible below md/768px) */}
       <div className="md:hidden space-y-3">
-        {questions.map((question, index) => {
+        {safeQuestions.map((question, index) => {
           const qId = String(question.id);
           const answer = answers[qId] || { probability: null, impact: null };
           const isEven = index % 2 === 0;
