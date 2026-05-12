@@ -2,15 +2,25 @@ import { render, screen, act } from '@testing-library/react';
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { AuthProvider, useAuth, getAuthClearFn } from '@/contexts/AuthContext';
 
-const AUTH_TOKEN_KEY = 'auth-token';
+// Mock the API module so login/logout don't hit the network
+vi.mock('@/services/api', () => ({
+  login: vi.fn(async (username: string) => ({
+    token: 'session',
+    expiresAt: new Date(Date.now() + 3600000).toISOString(),
+    user: { name: 'Test User', email: username },
+  })),
+  logout: vi.fn(async () => undefined),
+}));
+
+const AUTH_USER_KEY = 'auth-user';
 
 function TestConsumer() {
-  const { token, isAuthenticated, login, logout } = useAuth();
+  const { user, isAuthenticated, login, logout } = useAuth();
   return (
     <div>
-      <span data-testid="token">{token ?? 'null'}</span>
+      <span data-testid="user">{user ? user.email : 'null'}</span>
       <span data-testid="authenticated">{String(isAuthenticated)}</span>
-      <button onClick={() => login('user', 'pass')}>Login</button>
+      <button onClick={() => login('admin@example.com', 'password')}>Login</button>
       <button onClick={logout}>Logout</button>
     </div>
   );
@@ -28,12 +38,15 @@ describe('AuthContext', () => {
       </AuthProvider>
     );
 
-    expect(screen.getByTestId('token')).toHaveTextContent('null');
+    expect(screen.getByTestId('user')).toHaveTextContent('null');
     expect(screen.getByTestId('authenticated')).toHaveTextContent('false');
   });
 
-  it('restores token from localStorage on mount', () => {
-    localStorage.setItem(AUTH_TOKEN_KEY, 'stored-token');
+  it('restores user from localStorage on mount', () => {
+    localStorage.setItem(
+      AUTH_USER_KEY,
+      JSON.stringify({ name: 'Stored', email: 'stored@example.com' })
+    );
 
     render(
       <AuthProvider>
@@ -41,11 +54,11 @@ describe('AuthContext', () => {
       </AuthProvider>
     );
 
-    expect(screen.getByTestId('token')).toHaveTextContent('stored-token');
+    expect(screen.getByTestId('user')).toHaveTextContent('stored@example.com');
     expect(screen.getByTestId('authenticated')).toHaveTextContent('true');
   });
 
-  it('stores token in memory and localStorage on login', async () => {
+  it('stores user in memory and localStorage on login', async () => {
     render(
       <AuthProvider>
         <TestConsumer />
@@ -56,13 +69,16 @@ describe('AuthContext', () => {
       screen.getByText('Login').click();
     });
 
-    expect(screen.getByTestId('token')).not.toHaveTextContent('null');
+    expect(screen.getByTestId('user')).toHaveTextContent('admin@example.com');
     expect(screen.getByTestId('authenticated')).toHaveTextContent('true');
-    expect(localStorage.getItem(AUTH_TOKEN_KEY)).not.toBeNull();
+    expect(localStorage.getItem(AUTH_USER_KEY)).not.toBeNull();
   });
 
-  it('clears token from memory and localStorage on logout', async () => {
-    localStorage.setItem(AUTH_TOKEN_KEY, 'stored-token');
+  it('clears user from memory and localStorage on logout', async () => {
+    localStorage.setItem(
+      AUTH_USER_KEY,
+      JSON.stringify({ name: 'Stored', email: 'stored@example.com' })
+    );
 
     render(
       <AuthProvider>
@@ -74,13 +90,16 @@ describe('AuthContext', () => {
       screen.getByText('Logout').click();
     });
 
-    expect(screen.getByTestId('token')).toHaveTextContent('null');
+    expect(screen.getByTestId('user')).toHaveTextContent('null');
     expect(screen.getByTestId('authenticated')).toHaveTextContent('false');
-    expect(localStorage.getItem(AUTH_TOKEN_KEY)).toBeNull();
+    expect(localStorage.getItem(AUTH_USER_KEY)).toBeNull();
   });
 
-  it('exposes clearToken function for external use (401 interceptor)', async () => {
-    localStorage.setItem(AUTH_TOKEN_KEY, 'stored-token');
+  it('exposes clearAuth function for external use (401 interceptor)', async () => {
+    localStorage.setItem(
+      AUTH_USER_KEY,
+      JSON.stringify({ name: 'Stored', email: 'stored@example.com' })
+    );
 
     render(
       <AuthProvider>
@@ -97,9 +116,9 @@ describe('AuthContext', () => {
       clearFn!();
     });
 
-    expect(screen.getByTestId('token')).toHaveTextContent('null');
+    expect(screen.getByTestId('user')).toHaveTextContent('null');
     expect(screen.getByTestId('authenticated')).toHaveTextContent('false');
-    expect(localStorage.getItem(AUTH_TOKEN_KEY)).toBeNull();
+    expect(localStorage.getItem(AUTH_USER_KEY)).toBeNull();
   });
 
   it('throws error when useAuth is used outside AuthProvider', () => {
@@ -112,23 +131,20 @@ describe('AuthContext', () => {
     spy.mockRestore();
   });
 
-  it('isAuthenticated is derived from token being non-null', async () => {
+  it('isAuthenticated is derived from user being non-null', async () => {
     render(
       <AuthProvider>
         <TestConsumer />
       </AuthProvider>
     );
 
-    // Initially no token
     expect(screen.getByTestId('authenticated')).toHaveTextContent('false');
 
-    // After login, token exists
     await act(async () => {
       screen.getByText('Login').click();
     });
     expect(screen.getByTestId('authenticated')).toHaveTextContent('true');
 
-    // After logout, token is null again
     await act(async () => {
       screen.getByText('Logout').click();
     });

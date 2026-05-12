@@ -1,25 +1,32 @@
 import { createContext, useContext, useState, useCallback, useEffect, type ReactNode } from 'react';
-import type { LoginResponse } from '@/types/api';
+import { login as apiLogin, logout as apiLogout } from '@/services/api';
 
-const AUTH_TOKEN_KEY = 'auth-token';
+const AUTH_USER_KEY = 'auth-user';
+
+interface AuthUser {
+  name: string;
+  email: string;
+}
 
 interface AuthContextValue {
-  token: string | null;
+  user: AuthUser | null;
   isAuthenticated: boolean;
+  /** @deprecated kept for backwards-compat with older components */
+  token: string | null;
   login: (username: string, password: string) => Promise<void>;
-  logout: () => void;
+  logout: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 /**
- * Clears the auth token from both memory and localStorage.
- * Exposed for external use (e.g., axios 401 interceptor).
+ * Exposed for external code (axios 401 interceptor) to clear the local auth state
+ * without making a network call.
  */
-let clearTokenExternal: (() => void) | null = null;
+let clearAuthExternal: (() => void) | null = null;
 
 export function getAuthClearFn(): (() => void) | null {
-  return clearTokenExternal;
+  return clearAuthExternal;
 }
 
 interface AuthProviderProps {
@@ -27,58 +34,58 @@ interface AuthProviderProps {
 }
 
 export function AuthProvider({ children }: AuthProviderProps) {
-  const [token, setToken] = useState<string | null>(() => {
+  const [user, setUser] = useState<AuthUser | null>(() => {
     try {
-      return localStorage.getItem(AUTH_TOKEN_KEY);
+      const raw = localStorage.getItem(AUTH_USER_KEY);
+      return raw ? (JSON.parse(raw) as AuthUser) : null;
     } catch {
       return null;
     }
   });
 
-  const logout = useCallback(() => {
-    setToken(null);
+  const clearAuth = useCallback(() => {
+    setUser(null);
     try {
-      localStorage.removeItem(AUTH_TOKEN_KEY);
+      localStorage.removeItem(AUTH_USER_KEY);
     } catch {
-      // localStorage unavailable — token already cleared from memory
+      // ignore
     }
   }, []);
 
-  // Expose the logout function for external code (e.g., axios interceptors)
+  // Expose clearAuth for the axios 401 interceptor
   useEffect(() => {
-    clearTokenExternal = logout;
+    clearAuthExternal = clearAuth;
     return () => {
-      clearTokenExternal = null;
+      clearAuthExternal = null;
     };
-  }, [logout]);
+  }, [clearAuth]);
 
   const login = useCallback(async (username: string, password: string): Promise<void> => {
-    // TODO: Wire to actual API call once the API service layer is ready
-    // For now, simulate storing a token. The real implementation will call:
-    // const response = await apiClient.login(username, password);
-    // and use response.token
-    void username;
-    void password;
-
-    // Placeholder: in the real implementation, this will be replaced with an API call
-    const response: LoginResponse = {
-      token: 'placeholder-token',
-      expiresAt: new Date(Date.now() + 3600000).toISOString(),
-    };
-
-    setToken(response.token);
+    const response = await apiLogin(username, password);
+    const nextUser: AuthUser = response.user ?? { name: username, email: username };
+    setUser(nextUser);
     try {
-      localStorage.setItem(AUTH_TOKEN_KEY, response.token);
+      localStorage.setItem(AUTH_USER_KEY, JSON.stringify(nextUser));
     } catch {
-      // localStorage unavailable — token stored in memory only
+      // localStorage unavailable — user stored in memory only
     }
   }, []);
 
-  const isAuthenticated = token !== null;
+  const logout = useCallback(async (): Promise<void> => {
+    try {
+      await apiLogout();
+    } catch {
+      // even if logout request fails (e.g. network), clear local state
+    }
+    clearAuth();
+  }, [clearAuth]);
+
+  const isAuthenticated = user !== null;
 
   const value: AuthContextValue = {
-    token,
+    user,
     isAuthenticated,
+    token: isAuthenticated ? 'session' : null,
     login,
     logout,
   };
@@ -95,4 +102,4 @@ export function useAuth(): AuthContextValue {
 }
 
 export { AuthContext };
-export type { AuthContextValue };
+export type { AuthContextValue, AuthUser };

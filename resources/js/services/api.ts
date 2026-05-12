@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { AxiosError, InternalAxiosRequestConfig } from 'axios';
+import type { AxiosError } from 'axios';
 import { getAuthClearFn } from '@/contexts/AuthContext';
 import type {
   DashboardStats,
@@ -14,7 +14,7 @@ import type {
 import type { PhaseKey } from '@/types/questionnaire';
 
 /**
- * Typed API error class for consistent error handling across the application.
+ * Typed API error class for consistent error handling.
  */
 export class ApiError extends Error {
   constructor(
@@ -28,138 +28,131 @@ export class ApiError extends Error {
 }
 
 /**
- * Axios instance configured for the Laravel backend API.
+ * Read the CSRF token from the <meta name="csrf-token"> tag in the HTML.
+ */
+function getCsrfToken(): string {
+  const meta = document.querySelector<HTMLMetaElement>('meta[name="csrf-token"]');
+  return meta?.content ?? '';
+}
+
+/**
+ * Axios instance configured for the Laravel session-based backend API.
  * - Base URL from VITE_API_BASE_URL env variable, falling back to '/api'
- * - Request interceptor attaches Bearer token to admin-scoped requests
- * - Response interceptor handles 401 (clears token) and transforms errors to ApiError
+ * - withCredentials: true — sends cookies for session auth
+ * - X-CSRF-TOKEN header attached to unsafe methods (POST, PUT, PATCH, DELETE)
+ * - Response interceptor: on 401, clears local auth state; transforms errors to ApiError
  */
 export const apiClient = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL || '/api',
+  withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json',
+    'X-Requested-With': 'XMLHttpRequest',
   },
 });
 
-/**
- * Request interceptor: attach auth token to admin-scoped requests.
- * Only URLs containing '/admin' receive the Authorization header.
- */
-apiClient.interceptors.request.use(
-  (config: InternalAxiosRequestConfig) => {
-    const url = config.url || '';
-    if (url.includes('/admin')) {
-      try {
-        const token = localStorage.getItem('auth-token');
-        if (token) {
-          config.headers.set('Authorization', `Bearer ${token}`);
-        }
-      } catch {
-        // localStorage unavailable — skip token attachment
-      }
-    }
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
+// Attach CSRF token to every request (Laravel session guard requires it for POST/PUT/PATCH/DELETE)
+apiClient.interceptors.request.use((config) => {
+  const token = getCsrfToken();
+  if (token) {
+    config.headers.set('X-CSRF-TOKEN', token);
+  }
+  return config;
+});
 
-/**
- * Response interceptor:
- * - On 401: clear stored auth token via AuthContext's external clear function
- * - Transform all axios errors into typed ApiError instances
- */
+// Handle 401 and normalize errors
 apiClient.interceptors.response.use(
   (response) => response,
-  (error: AxiosError<{ message?: string; code?: string }>) => {
+  (error: AxiosError<{ message?: string; code?: string; errors?: Record<string, string[]> }>) => {
     const status = error.response?.status ?? 0;
     const code = error.response?.data?.code ?? error.code ?? 'NETWORK_ERROR';
-    const message =
+    let message =
       error.response?.data?.message ?? error.message ?? 'An unexpected error occurred';
 
-    // Handle 401 Unauthorized: clear token and trigger login modal
+    // Laravel validation errors (422): collect the first error from each field
+    const validationErrors = error.response?.data?.errors;
+    if (status === 422 && validationErrors) {
+      const firstErrors = Object.values(validationErrors)
+        .flat()
+        .slice(0, 3);
+      if (firstErrors.length > 0) {
+        message = firstErrors.join(' ');
+      }
+    }
+
     if (status === 401) {
       const clearFn = getAuthClearFn();
-      if (clearFn) {
-        clearFn();
-      }
+      if (clearFn) clearFn();
     }
 
     return Promise.reject(new ApiError(status, code, message));
   }
 );
 
-
 // ─── API Service Functions ───────────────────────────────────────────────────
 
-/**
- * Fetch risk indicator questions for a given project phase.
- */
 export async function fetchQuestions(phase: PhaseKey): Promise<QuestionsResponse> {
   const response = await apiClient.get<QuestionsResponse>(`/questions/${phase}`);
   return response.data;
 }
 
-/**
- * Submit the complete questionnaire (identity, phase answers, open questions).
- */
 export async function submitQuestionnaire(payload: SubmissionPayload): Promise<SubmissionResponse> {
   const response = await apiClient.post<SubmissionResponse>('/questionnaire/submit', payload);
   return response.data;
 }
 
 /**
- * Authenticate an administrator and receive a session token.
+ * Admin login. Backend treats `username` field as email.
+ * Returns session user info (no token — session is stored in cookie).
  */
 export async function login(username: string, password: string): Promise<LoginResponse> {
-  const response = await apiClient.post<LoginResponse>('/admin/login', { username, password });
-  return response.data;
+  const response = await apiClient.post<{
+    message: string;
+    user: { name: string; email: string };
+  }>('/admin/login', { username, password });
+
+  // Adapt backend response shape to frontend LoginResponse contract
+  return {
+    token: 'session', // placeholder — real auth lives in httpOnly cookie
+    expiresAt: new Date(Date.now() + 2 * 60 * 60 * 1000).toISOString(), // 2h
+    user: response.data.user,
+  };
 }
 
 /**
- * Fetch dashboard statistics (total respondents and per-phase counts).
+ * Admin logout — invalidates the server-side session.
  */
+export async function logout(): Promise<void> {
+  await apiClient.post('/admin/logout');
+}
+
 export async function fetchDashboardStats(): Promise<DashboardStats> {
   const response = await apiClient.get<DashboardStats>('/admin/dashboard/stats');
   return response.data;
 }
 
-/**
- * Fetch the list of respondents, optionally filtered by phase.
- */
 export async function fetchRespondents(phase?: PhaseKey): Promise<RespondentRow[]> {
   const params = phase ? { phase } : undefined;
   const response = await apiClient.get<RespondentRow[]>('/admin/respondents', { params });
   return response.data;
 }
 
-/**
- * Trigger an Excel file download for the specified phase or open questions.
- * Opens the export URL in a new tab to initiate the browser download.
- */
 export function downloadExcel(phase: PhaseKey | 'open'): void {
   const baseURL = apiClient.defaults.baseURL || '/api';
   const url = `${baseURL}/admin/export/${phase}`;
   window.open(url, '_blank');
 }
 
-/**
- * Delete all collected data for a specific phase (irreversible).
- */
 export async function resetPhaseData(phase: PhaseKey): Promise<void> {
   await apiClient.delete(`/admin/data/${phase}`);
 }
 
-/**
- * Fetch risk matrix data (probability × impact cell counts) for a phase.
- */
 export async function fetchRiskMatrix(phase: PhaseKey): Promise<RiskMatrixCell[]> {
   const response = await apiClient.get<RiskMatrixCell[]>(`/admin/risk-matrix/${phase}`);
   return response.data;
 }
 
-/**
- * Fetch average probability, impact, and score per indicator for a phase.
- */
 export async function fetchAverageScores(phase: PhaseKey): Promise<IndicatorScore[]> {
   const response = await apiClient.get<IndicatorScore[]>(`/admin/average-scores/${phase}`);
   return response.data;

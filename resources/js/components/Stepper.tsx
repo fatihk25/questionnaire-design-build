@@ -8,54 +8,49 @@ export interface StepperProps {
 }
 
 const TOTAL_STEPS = 10;
-
-/**
- * Step label i18n keys for steps 1–10.
- */
 const stepKeys = Array.from({ length: TOTAL_STEPS }, (_, i) => `step.${i + 1}`);
 
-/**
- * Stepper — horizontal progress indicator showing completed, active, and upcoming steps.
- *
- * Visual states:
- * - Completed: green circle with white check icon, green connector line
- * - Active: blue circle with step number, blue ring/pulse effect, blue connector line
- * - Upcoming: gray circle with step number, gray connector line
- *
- * Behavior:
- * - Hidden on Step 1 (returns null)
- * - Desktop (≥768px): shows all 10 steps horizontally with connector lines
- * - Mobile (<768px): shows only active step label and "X/10" indicator
- */
 export function Stepper({ currentStep, totalSteps = TOTAL_STEPS }: StepperProps) {
   const { t } = useI18n();
 
-  // Hide stepper on Step 1
-  if (currentStep === 1) {
-    return null;
-  }
+  if (currentStep === 1) return null;
+
+  const progressPercent = ((currentStep - 1) / (totalSteps - 1)) * 100;
 
   return (
-    <div className="w-full py-4" role="navigation" aria-label="Progress">
-      {/* Desktop view (≥768px) */}
-      <div className="hidden md:block">
-        <div className="flex items-center justify-between">
+    <div className="w-full bg-white border-b border-gray-200" role="navigation" aria-label="Progress">
+      <div className="hidden md:block px-6 pt-4 pb-1">
+
+        {/* Steps row: each step is flex-1, circle centered, short lines on each side */}
+        <div className="flex items-center">
           {stepKeys.map((key, index) => {
             const stepNumber = index + 1;
             const isCompleted = stepNumber < currentStep;
             const isActive = stepNumber === currentStep;
+            const isFirst = index === 0;
+            const isLast = index === totalSteps - 1;
+
+            // Line color: green if the segment is "done" (both sides completed)
+            const leftLineDone = stepNumber <= currentStep;   // left side of this circle
+            const rightLineDone = stepNumber < currentStep;   // right side of this circle
 
             return (
-              <div key={key} className="flex items-center flex-1 last:flex-none">
-                {/* Step indicator */}
-                <div className="flex flex-col items-center">
+              <div key={key} className="flex-1 flex flex-col items-center">
+                {/* Circle row with short lines */}
+                <div className="flex items-center w-full">
+                  {/* Left line (hidden for first step) */}
+                  <div className={clsx(
+                    'flex-1 h-px',
+                    isFirst ? 'invisible' : leftLineDone ? 'bg-green-500' : 'bg-gray-300'
+                  )} />
+
+                  {/* Circle */}
                   <div
                     className={clsx(
-                      'flex items-center justify-center w-8 h-8 rounded-full text-sm font-medium transition-all',
-                      isCompleted && 'bg-[var(--color-accent-green)] text-white',
-                      isActive &&
-                        'bg-[var(--color-primary)] text-white ring-4 ring-[var(--color-primary)]/20',
-                      !isCompleted && !isActive && 'bg-gray-200 text-gray-500 dark:bg-gray-600 dark:text-gray-300'
+                      'flex-shrink-0 flex items-center justify-center w-9 h-9 rounded-full font-semibold text-sm border-2 transition-all',
+                      isCompleted && 'bg-green-600 border-green-600 text-white',
+                      isActive && 'bg-[#025695] border-[#025695] text-white',
+                      !isCompleted && !isActive && 'bg-white border-gray-300 text-gray-500'
                     )}
                     aria-current={isActive ? 'step' : undefined}
                   >
@@ -65,72 +60,64 @@ export function Stepper({ currentStep, totalSteps = TOTAL_STEPS }: StepperProps)
                       <span>{stepNumber}</span>
                     )}
                   </div>
-                  {/* Step label */}
-                  <span
-                    className={clsx(
-                      'mt-1 text-xs text-center whitespace-nowrap',
-                      isCompleted && 'text-[var(--color-accent-green)] font-medium',
-                      isActive && 'text-[var(--color-primary)] font-semibold',
-                      !isCompleted && !isActive && 'text-gray-400 dark:text-gray-400'
-                    )}
-                  >
-                    {t(key)}
-                  </span>
+
+                  {/* Right line (hidden for last step) */}
+                  <div className={clsx(
+                    'flex-1 h-px',
+                    isLast ? 'invisible' : rightLineDone ? 'bg-green-500' : 'bg-gray-300'
+                  )} />
                 </div>
 
-                {/* Connector line (not after last step) */}
-                {stepNumber < totalSteps && (
-                  <div
-                    className={clsx(
-                      'flex-1 h-0.5 mx-2',
-                      stepNumber < currentStep && 'bg-[var(--color-accent-green)]',
-                      stepNumber === currentStep && 'bg-[var(--color-primary)]',
-                      stepNumber > currentStep && 'bg-gray-200 dark:bg-gray-600'
-                    )}
-                  />
-                )}
+                {/* Label */}
+                <span className={clsx(
+                  'mt-1.5 text-[10px] text-center whitespace-nowrap',
+                  isCompleted && 'text-green-700 font-medium',
+                  isActive && 'text-[#025695] font-semibold',
+                  !isCompleted && !isActive && 'text-gray-400'
+                )}>
+                  {t(key)}
+                </span>
               </div>
             );
           })}
         </div>
 
-        {/* "Langkah X dari 10" text */}
-        <p className="mt-3 text-center text-sm text-gray-600 dark:text-gray-300">
-          {t('stepper.stepOf')
-            .replace('{current}', String(currentStep))
-            .replace('{total}', String(totalSteps))}
-        </p>
+        {/* Bottom: thin progress bar + "Langkah X dari 10" */}
+        <div className="flex items-center gap-4 mt-3 pb-2">
+          <div className="flex-1 h-px bg-gray-200 overflow-hidden">
+            <div
+              className="h-full bg-[#025695] transition-all duration-500"
+              style={{ width: `${progressPercent}%` }}
+            />
+          </div>
+          <span className="text-[11px] text-gray-500 whitespace-nowrap flex-shrink-0">
+            {t('stepper.stepOf')
+              .replace('{current}', String(currentStep))
+              .replace('{total}', String(totalSteps))}
+          </span>
+        </div>
       </div>
 
-      {/* Mobile view (<768px) */}
-      <div className="md:hidden">
-        <div className="flex items-center justify-between">
-          {/* Active step indicator + label */}
+      {/* Mobile */}
+      <div className="md:hidden px-4 py-3">
+        <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-2">
-            <div className="flex items-center justify-center w-8 h-8 rounded-full bg-[var(--color-primary)] text-white text-sm font-medium ring-4 ring-[var(--color-primary)]/20">
+            <div className="flex items-center justify-center w-9 h-9 rounded-full bg-[#025695] text-white text-sm font-bold border-2 border-[#025695]">
               {currentStep}
             </div>
-            <span className="text-sm font-semibold text-[var(--color-primary)] dark:text-blue-300">
+            <span className="text-sm font-semibold text-[#025695]">
               {t(stepKeys[currentStep - 1])}
             </span>
           </div>
-
-          {/* "X/10" indicator */}
-          <span className="text-sm text-gray-500 dark:text-gray-400">
-            {currentStep}/{totalSteps}
-          </span>
+          <span className="text-xs text-gray-500">{currentStep}/{totalSteps}</span>
         </div>
-
-        {/* Progress bar */}
-        <div className="mt-2 h-1.5 w-full rounded-full bg-gray-200 dark:bg-gray-600 overflow-hidden">
+        <div className="h-px w-full bg-gray-200 overflow-hidden">
           <div
-            className="h-full rounded-full bg-[var(--color-primary)] transition-all duration-300"
-            style={{ width: `${((currentStep - 1) / (totalSteps - 1)) * 100}%` }}
+            className="h-full bg-[#025695] transition-all duration-300"
+            style={{ width: `${progressPercent}%` }}
           />
         </div>
-
-        {/* "Langkah X dari 10" text */}
-        <p className="mt-2 text-center text-xs text-gray-500 dark:text-gray-400">
+        <p className="mt-1.5 text-right text-[11px] text-gray-500">
           {t('stepper.stepOf')
             .replace('{current}', String(currentStep))
             .replace('{total}', String(totalSteps))}

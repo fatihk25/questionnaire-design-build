@@ -33,6 +33,10 @@ export interface SubmissionResponse {
 export interface LoginResponse {
   token: string;
   expiresAt: string;
+  user?: {
+    name: string;
+    email: string;
+  };
 }
 
 export interface DashboardStats {

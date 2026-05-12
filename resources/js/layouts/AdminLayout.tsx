@@ -8,8 +8,8 @@ export function AdminLayout() {
   const { t, locale, setLocale } = useI18n();
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    await logout();
     navigate('/');
   };
 

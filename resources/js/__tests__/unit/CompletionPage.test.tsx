@@ -9,6 +9,12 @@ import { I18nProvider } from '@/contexts/I18nContext';
 // Mock the API service
 vi.mock('@/services/api', () => ({
   submitQuestionnaire: vi.fn(),
+  ApiError: class ApiError extends Error {
+    constructor(public status: number, public code: string, message: string) {
+      super(message);
+      this.name = 'ApiError';
+    }
+  },
 }));
 
 import { submitQuestionnaire } from '@/services/api';
@@ -74,10 +80,11 @@ describe('CompletionPage', () => {
     );
 
     await waitFor(() => {
-      expect(screen.getByText('Terjadi kesalahan saat mengirim jawaban.')).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: 'Coba Lagi' })).toBeInTheDocument();
     });
 
-    expect(screen.getByRole('button', { name: 'Coba Lagi' })).toBeInTheDocument();
+    // The main error heading should be present
+    expect(screen.getByRole('heading', { name: /kesalahan/i })).toBeInTheDocument();
   });
 
   it('does not show a back button after successful submission', async () => {

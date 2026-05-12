@@ -111,6 +111,12 @@ export default function IdentityPage() {
     if (!identity.perusahaan.trim()) {
       newErrors.perusahaan = t('error.required');
     }
+    if (!identity.telepon.trim()) {
+      newErrors.telepon = t('error.required');
+    }
+    if (!identity.email.trim()) {
+      newErrors.email = t('error.required');
+    }
     if (!identity.kelompokUmur) {
       newErrors.kelompokUmur = t('error.required');
     }
@@ -176,16 +182,20 @@ export default function IdentityPage() {
           name="telepon"
           type="tel"
           placeholder="08xx-xxxx-xxxx"
+          required
           value={identity.telepon}
           onChange={(value) => handleFieldChange('telepon', value)}
+          error={errors.telepon}
         />
         <InputField
           label={t('identity.email')}
           name="email"
           type="email"
           placeholder="email@domain.com"
+          required
           value={identity.email}
           onChange={(value) => handleFieldChange('email', value)}
+          error={errors.email}
         />
       </div>
 

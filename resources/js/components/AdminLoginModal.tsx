@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { X } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useI18n } from '@/contexts/I18nContext';
+import { ApiError } from '@/services/api';
 
 interface AdminLoginModalProps {
   isOpen: boolean;
@@ -68,8 +69,19 @@ export function AdminLoginModal({ isOpen, onClose }: AdminLoginModalProps) {
         await login(username, password);
         onClose();
         navigate('/admin/dashboard');
-      } catch {
-        setError(t('error.login'));
+      } catch (err) {
+        if (err instanceof ApiError) {
+          // Map technical errors to user-friendly messages
+          if (err.status === 419 || err.message.includes('CSRF')) {
+            setError('Sesi kedaluwarsa. Silakan refresh halaman dan coba lagi.');
+          } else if (err.status === 401) {
+            setError('Email atau password salah.');
+          } else {
+            setError(err.message || t('error.login'));
+          }
+        } else {
+          setError(t('error.login'));
+        }
       } finally {
         setIsLoading(false);
       }
@@ -124,24 +136,24 @@ export function AdminLoginModal({ isOpen, onClose }: AdminLoginModalProps) {
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          {/* Username */}
+          {/* Username (backend treats this as email) */}
           <div className="flex flex-col gap-1.5">
             <label
               htmlFor="admin-username"
               className="text-sm font-semibold text-gray-700"
             >
-              {t('admin.username')}
+              Email
             </label>
             <input
               ref={usernameInputRef}
               id="admin-username"
               name="username"
-              type="text"
+              type="email"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              placeholder={t('admin.username')}
+              placeholder="admin@example.com"
               required
-              autoComplete="username"
+              autoComplete="email"
               className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
             />
           </div>

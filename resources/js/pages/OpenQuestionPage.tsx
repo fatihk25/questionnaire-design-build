@@ -4,20 +4,21 @@ import { useI18n } from '@/contexts/I18nContext';
 import { Card, TextareaField, Button } from '@/components/ui';
 
 /**
- * Hardcoded open-ended questions for the questionnaire.
+ * Open-ended questions matching the database IDs from OpenQuestionSeeder.
+ * Backend expects numeric IDs (1, 2, 3) for OpenQuestion::find().
  */
 const openQuestions = [
   {
-    id: 'open1',
+    id: '1',
     label:
-      'Menurut Anda, risiko apa yang paling signifikan dalam proyek Design and Build?',
+      'Apa risiko paling signifikan yang Anda temui dalam proyek Design and Build?',
   },
   {
-    id: 'open2',
-    label: 'Apa saran Anda untuk memitigasi risiko tersebut?',
+    id: '2',
+    label: 'Apa saran Anda untuk mitigasi risiko tersebut?',
   },
   {
-    id: 'open3',
+    id: '3',
     label:
       'Apakah ada risiko lain yang belum tercakup dalam kuesioner ini?',
   },
