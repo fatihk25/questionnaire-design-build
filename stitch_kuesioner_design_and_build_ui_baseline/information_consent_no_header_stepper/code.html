@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Lembar Informasi &amp; Persetujuan</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              teal: '#2F6B8E',
+              blue: '#4A7CA6',
+              bg: '#F5F6F5',
+              card: '#F0EFE9',
+              text: '#333333',
+              heading: '#1A1A1A'
+            }
+          },
+          fontFamily: {
+            serif: ['Georgia', 'Cambria', '"Times New Roman"', 'Times', 'serif'],
+            sans: ['ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', '"Helvetica Neue"', 'Arial', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+<style data-purpose="base-styles">
+    body {
+      background-color: theme('colors.brand.bg');
+      color: theme('colors.brand.text');
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col font-sans">
+<!-- BEGIN: MainContent -->
+<main class="flex-grow flex flex-col items-center pt-12 pb-24 px-4 sm:px-6 lg:px-8">
+<div class="w-full max-w-6xl">
+<!-- Page Header -->
+<header class="mb-10 flex items-center gap-3">
+<span aria-hidden="true" class="text-3xl">📋</span>
+<h1 class="text-3xl font-serif font-bold text-brand-heading">Lembar Informasi &amp; Persetujuan</h1>
+</header>
+<!-- BEGIN: Info Cards Section -->
+<section aria-label="Informasi Penting" class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+<!-- Card 1: Tujuan -->
+<article class="bg-brand-card rounded-xl p-6 border border-gray-200/50 shadow-sm" data-purpose="info-card">
+<h2 class="text-lg font-semibold text-brand-blue mb-4">Tujuan</h2>
+<p class="text-gray-700 leading-relaxed text-sm">
+            Kuesioner ini bertujuan untuk mengidentifikasi permasalahan/tantangan, dan faktor keberhasilan dalam penerapan metode Design and Build (DB) pada proyek konstruksi sektor publik, khususnya pada proyek Ibu Kota Nusantara (IKN).
+          </p>
+</article>
+<!-- Card 2: Kerahasiaan -->
+<article class="bg-brand-card rounded-xl p-6 border border-gray-200/50 shadow-sm" data-purpose="info-card">
+<h2 class="text-lg font-semibold text-brand-blue mb-4">Kerahasiaan</h2>
+<p class="text-gray-700 leading-relaxed text-sm">
+            Seluruh data identitas dan jawaban responden akan dijaga kerahasiaannya serta hanya digunakan untuk kepentingan akademik.
+          </p>
+</article>
+<!-- Card 3: Sukarela -->
+<article class="bg-brand-card rounded-xl p-6 border border-gray-200/50 shadow-sm" data-purpose="info-card">
+<h2 class="text-lg font-semibold text-brand-blue mb-4">Sukarela</h2>
+<p class="text-gray-700 leading-relaxed text-sm">
+            Partisipasi Bapak/Ibu/Saudara/i bersifat sukarela. Tidak ada jawaban benar atau salah, sehingga responden diharapkan menjawab sesuai pengalaman dan kondisi nyata di lapangan.
+          </p>
+</article>
+</section>
+<!-- END: Info Cards Section -->
+<!-- BEGIN: Consent Checkbox Section -->
+<section aria-label="Persetujuan" class="bg-brand-card rounded-xl p-5 mb-10 border border-gray-200/50 shadow-sm flex items-center gap-4">
+<div class="flex items-center h-5">
+<input checked="" class="focus:ring-brand-blue h-5 w-5 text-brand-teal border-gray-300 rounded cursor-pointer" id="consent" name="consent" type="checkbox"/>
+</div>
+<div class="text-sm">
+<label class="font-medium text-gray-800 cursor-pointer select-none" for="consent">
+            Saya telah membaca informasi di atas dan bersedia melanjutkan pengisian kuesioner.
+          </label>
+</div>
+</section>
+<!-- END: Consent Checkbox Section -->
+<!-- BEGIN: Action Buttons -->
+<nav aria-label="Navigasi Halaman" class="flex justify-start gap-4">
+<button class="inline-flex items-center px-6 py-2.5 border border-gray-300 shadow-sm text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-blue transition-colors" type="button">
+          ← Kembali
+        </button>
+<button class="inline-flex items-center px-6 py-2.5 border border-transparent shadow-sm text-sm font-medium rounded-lg text-white bg-brand-teal hover:bg-[#255775] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-blue transition-colors" type="button">
+          Lanjutkan →
+        </button>
+</nav>
+<!-- END: Action Buttons -->
+</div>
+</main>
+<!-- END: MainContent -->
+<!-- BEGIN: Footer -->
+<footer class="py-8 text-center text-sm text-gray-500">
+<p>© 2025 Della Ayu Adinanda</p>
+</footer>
+<!-- END: Footer -->
+</body></html>

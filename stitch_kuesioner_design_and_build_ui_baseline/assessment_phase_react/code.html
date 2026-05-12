@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Penilaian pada Fase Penggunaan (O&amp;M) - Kuesioner Design and Build</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&amp;family=Playfair+Display:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface": "#f8f9fa",
+                        "tertiary-fixed": "#d1e4ff",
+                        "primary-fixed-dim": "#a0c9ff",
+                        "surface-bright": "#f8f9fa",
+                        "on-error": "#ffffff",
+                        "secondary-container": "#a7eafa",
+                        "background": "#f8f9fa",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed": "#d2e4ff",
+                        "outline": "#727781",
+                        "surface-container": "#edeeef",
+                        "tertiary-container": "#4c6f97",
+                        "on-primary-fixed": "#001c37",
+                        "primary": "#025695",
+                        "secondary": "#1c6775",
+                        "surface-variant": "#e1e3e4",
+                        "on-tertiary-container": "#e7f0ff",
+                        "inverse-on-surface": "#f0f1f2",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-fixed-variant": "#004e5a",
+                        "error-container": "#ffdad6",
+                        "surface-dim": "#d9dadb",
+                        "outline-variant": "#c1c7d2",
+                        "on-tertiary-fixed-variant": "#24496e",
+                        "secondary-fixed": "#aaedfd",
+                        "tertiary-fixed-dim": "#a6c9f6",
+                        "secondary-fixed-dim": "#8ed1e0",
+                        "on-secondary-fixed": "#001f25",
+                        "on-primary-fixed-variant": "#00497f",
+                        "inverse-surface": "#2e3132",
+                        "on-surface-variant": "#414750",
+                        "on-background": "#191c1d",
+                        "on-secondary-container": "#226b79",
+                        "on-tertiary-fixed": "#001d36",
+                        "on-primary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "tertiary": "#33567d",
+                        "inverse-primary": "#a0c9ff",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-container": "#e7efff",
+                        "surface-tint": "#1a61a0",
+                        "on-surface": "#191c1d",
+                        "surface-container-low": "#f3f4f5",
+                        "surface-container-high": "#e7e8e9",
+                        "primary-container": "#2f6faf",
+                        "on-error-container": "#93000a",
+                        "surface-container-highest": "#e1e3e4",
+                        "matrix-alt": "#f3ece5",
+                        "success-green": "#2e7d32"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit": "8px",
+                        "margin-desktop": "40px",
+                        "gutter": "24px",
+                        "margin-mobile": "16px",
+                        "container-max-width": "1200px"
+                    },
+                    "fontFamily": {
+                        "title-lg": ["Public Sans"],
+                        "label-md": ["Public Sans"],
+                        "headline-md": ["Playfair Display"],
+                        "display-xl": ["Playfair Display"],
+                        "label-sm": ["Public Sans"],
+                        "headline-lg": ["Playfair Display"],
+                        "body-md": ["Public Sans"],
+                        "body-lg": ["Public Sans"]
+                    },
+                    "fontSize": {
+                        "title-lg": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "label-md": ["13px", { "lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "display-xl": ["48px", { "lineHeight": "60px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "700" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md antialiased flex flex-col min-h-screen">
+<!-- TopAppBar -->
+<header class="bg-secondary dark:bg-secondary-container shadow-sm dark:shadow-none w-full sticky top-0 z-50">
+<div class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop h-16 container mx-auto max-w-container-max-width">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-title-lg font-headline-md text-on-secondary dark:text-on-secondary-container fill" data-icon="domain">domain</span>
+<span class="text-title-lg font-headline-md text-on-secondary dark:text-on-secondary-container tracking-tight">Kuesioner Design and Build</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4 text-on-secondary/80">
+<button class="hover:bg-on-secondary/10 transition-colors p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="dark_mode">dark_mode</span>
+</button>
+<div class="flex items-center gap-2 px-3 py-1.5 rounded bg-on-secondary/10 border border-on-secondary/20">
+<span class="font-label-md text-label-md text-on-secondary">ID</span>
+<span class="text-on-secondary/40">|</span>
+<span class="font-label-md text-label-md text-on-secondary/60">EN</span>
+</div>
+</div>
+<div class="flex items-center gap-2 pl-4 border-l border-on-secondary/20">
+<span class="material-symbols-outlined text-on-secondary/80" data-icon="lock">lock</span>
+<span class="font-label-md text-label-md text-on-secondary">Admin</span>
+</div>
+</div>
+</div>
+</header>
+<!-- Progress Stepper -->
+<div class="w-full bg-surface-container-lowest border-b border-outline-variant py-6 hidden md:block">
+<div class="container mx-auto max-w-container-max-width px-margin-desktop">
+<div class="flex items-center justify-between relative">
+<!-- Line background -->
+<div class="absolute top-1/2 left-0 w-full h-[2px] bg-outline-variant -z-10 -translate-y-1/2"></div>
+<!-- Steps -->
+<div class="flex flex-col items-center gap-2 bg-surface-container-lowest px-2 z-10">
+<div class="w-8 h-8 rounded-full bg-success-green flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined text-[16px] font-bold" data-icon="check">check</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface">Mulai</span>
+</div>
+<div class="flex flex-col items-center gap-2 bg-surface-container-lowest px-2 z-10">
+<div class="w-8 h-8 rounded-full bg-success-green flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined text-[16px] font-bold" data-icon="check">check</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface">Persetujuan</span>
+</div>
+<div class="flex flex-col items-center gap-2 bg-surface-container-lowest px-2 z-10">
+<div class="w-8 h-8 rounded-full bg-success-green flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined text-[16px] font-bold" data-icon="check">check</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface">Identitas</span>
+</div>
+<div class="flex flex-col items-center gap-2 bg-surface-container-lowest px-2 z-10">
+<div class="w-8 h-8 rounded-full bg-success-green flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined text-[16px] font-bold" data-icon="check">check</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface">Penilaian</span>
+</div>
+<div class="flex flex-col items-center gap-2 bg-surface-container-lowest px-2 z-10">
+<div class="w-8 h-8 rounded-full bg-success-green flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined text-[16px] font-bold" data-icon="check">check</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface">Idea</span>
+</div>
+<div class="flex flex-col items-center gap-2 bg-surface-container-lowest px-2 z-10">
+<div class="w-8 h-8 rounded-full bg-success-green flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined text-[16px] font-bold" data-icon="check">check</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface">Planning</span>
+</div>
+<div class="flex flex-col items-center gap-2 bg-surface-container-lowest px-2 z-10">
+<div class="w-8 h-8 rounded-full bg-success-green flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined text-[16px] font-bold" data-icon="check">check</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface">Design</span>
+</div>
+<div class="flex flex-col items-center gap-2 bg-surface-container-lowest px-2 z-10">
+<div class="w-8 h-8 rounded-full bg-success-green flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined text-[16px] font-bold" data-icon="check">check</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface">Construction</span>
+</div>
+<div class="flex flex-col items-center gap-2 bg-surface-container-lowest px-2 z-10">
+<div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-on-primary border-2 border-primary ring-4 ring-primary-container/20">
+<span class="font-label-md text-label-md">8</span>
+</div>
+<span class="font-label-sm text-label-sm text-primary font-bold">O&amp;M</span>
+</div>
+<div class="flex flex-col items-center gap-2 bg-surface-container-lowest px-2 z-10">
+<div class="w-8 h-8 rounded-full bg-surface border border-outline-variant flex items-center justify-center text-on-surface-variant">
+<span class="font-label-md text-label-md">9</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Terbuka</span>
+</div>
+<div class="flex flex-col items-center gap-2 bg-surface-container-lowest px-2 z-10">
+<div class="w-8 h-8 rounded-full bg-surface border border-outline-variant flex items-center justify-center text-on-surface-variant">
+<span class="font-label-md text-label-md">10</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Selesai</span>
+</div>
+</div>
+<div class="text-right mt-4 font-body-md text-body-md text-on-surface-variant">
+                Langkah 8 dari 10
+            </div>
+</div>
+</div>
+<!-- Main Content Canvas -->
+<main class="flex-grow container mx-auto max-w-container-max-width px-margin-mobile md:px-margin-desktop py-[40px] md:py-[64px]">
+<!-- Section Header -->
+<div class="mb-8">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-headline-lg text-primary" data-icon="assignment">assignment</span>
+<h1 class="font-headline-lg text-headline-lg text-on-surface">Penilaian pada Fase Penggunaan (O&amp;M)</h1>
+</div>
+<div class="bg-matrix-alt rounded-lg p-6 border border-outline-variant/30 shadow-[0_4px_20px_rgba(0,0,0,0.02)]">
+<p class="font-body-lg text-body-lg text-on-surface mb-2">
+                    a. Seberapa sering kondisi tersebut terjadi pada proyek <em>Design and Build</em>?
+                </p>
+<p class="font-body-lg text-body-lg text-on-surface">
+                    b. Jika kondisi tersebut terjadi, seberapa parah dampaknya terhadap proyek <em>Design and Build</em>?
+                </p>
+</div>
+</div>
+<!-- Matrix Card -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant shadow-[0_4px_20px_rgba(0,0,0,0.05)] overflow-hidden mb-[64px]">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse min-w-[1000px]">
+<thead class="bg-surface-container-low border-b-2 border-outline-variant">
+<tr>
+<th class="p-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider w-16 text-center border-r border-outline-variant/50 align-bottom">No</th>
+<th class="p-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider border-r border-outline-variant/50 align-bottom">Pertanyaan</th>
+<th class="p-2 border-r border-outline-variant/50 text-center bg-primary-fixed-dim/20" colspan="6">
+<div class="font-label-md text-label-md text-primary uppercase mb-2 border-b border-primary/20 pb-2">A. Kemungkinan Terjadi (Probability)</div>
+<div class="flex justify-between px-2">
+<div class="flex flex-col items-center w-10"><span class="text-[10px] text-on-surface-variant leading-tight text-center h-8">Tdk Pernah</span><span class="font-bold text-lg">0</span></div>
+<div class="flex flex-col items-center w-10"><span class="text-[10px] text-on-surface-variant leading-tight text-center h-8">Jarang</span><span class="font-bold text-lg">1</span></div>
+<div class="flex flex-col items-center w-10"><span class="text-[10px] text-on-surface-variant leading-tight text-center h-8"></span><span class="font-bold text-lg mt-auto">2</span></div>
+<div class="flex flex-col items-center w-10"><span class="text-[10px] text-on-surface-variant leading-tight text-center h-8"></span><span class="font-bold text-lg mt-auto">3</span></div>
+<div class="flex flex-col items-center w-10"><span class="text-[10px] text-on-surface-variant leading-tight text-center h-8"></span><span class="font-bold text-lg mt-auto">4</span></div>
+<div class="flex flex-col items-center w-10"><span class="text-[10px] text-on-surface-variant leading-tight text-center h-8">Pasti</span><span class="font-bold text-lg mt-auto">5</span></div>
+</div>
+</th>
+<th class="p-2 text-center bg-tertiary-fixed/20" colspan="6">
+<div class="font-label-md text-label-md text-tertiary uppercase mb-2 border-b border-tertiary/20 pb-2">B. Keparahan Dampak (Impact)</div>
+<div class="flex justify-between px-2">
+<div class="flex flex-col items-center w-10"><span class="text-[10px] text-on-surface-variant leading-tight text-center h-8">Tdk Ada</span><span class="font-bold text-lg">0</span></div>
+<div class="flex flex-col items-center w-10"><span class="text-[10px] text-on-surface-variant leading-tight text-center h-8">Tdk Parah</span><span class="font-bold text-lg">1</span></div>
+<div class="flex flex-col items-center w-10"><span class="text-[10px] text-on-surface-variant leading-tight text-center h-8"></span><span class="font-bold text-lg mt-auto">2</span></div>
+<div class="flex flex-col items-center w-10"><span class="text-[10px] text-on-surface-variant leading-tight text-center h-8"></span><span class="font-bold text-lg mt-auto">3</span></div>
+<div class="flex flex-col items-center w-10"><span class="text-[10px] text-on-surface-variant leading-tight text-center h-8"></span><span class="font-bold text-lg mt-auto">4</span></div>
+<div class="flex flex-col items-center w-10"><span class="text-[10px] text-on-surface-variant leading-tight text-center h-8">Sgt Parah</span><span class="font-bold text-lg mt-auto">5</span></div>
+</div>
+</th>
+</tr>
+</thead>
+<tbody class="font-body-md text-body-md text-on-surface">
+<!-- Row 1 -->
+<tr class="border-b border-outline-variant hover:bg-surface-container-low/50 transition-colors">
+<td class="p-4 text-center border-r border-outline-variant/50 text-on-surface-variant">1</td>
+<td class="p-4 border-r border-outline-variant/50 pr-8">Regulasi dan kerangka hukum mengenai Design and Build masih kurang komprehensif/kurang detail</td>
+<td class="p-2 border-r border-outline-variant/50 text-center bg-primary-fixed-dim/5 relative"><div class="w-full h-full flex justify-center items-center"></div></td>
+<td class="p-2 border-r border-outline-variant/50 text-center bg-primary-fixed-dim/5 relative"><div class="w-full h-full flex justify-center items-center"></div></td>
+<td class="p-2 border-r border-outline-variant/50 text-center bg-primary-fixed-dim/5 relative"><div class="w-full h-full flex justify-center items-center"><div class="w-6 h-6 rounded-full bg-primary text-white flex items-center justify-center text-xs font-bold shadow-sm">2</div></div></td>
+<td class="p-2 border-r border-outline-variant/50 text-center bg-primary-fixed-dim/5 relative"><div class="w-full h-full flex justify-center items-center"></div></td>
+<td class="p-2 border-r border-outline-variant/50 text-center bg-primary-fixed-dim/5 relative"><div class="w-full h-full flex justify-center items-center"></div></td>
+<td class="p-2 border-r border-outline-variant/50 text-center bg-primary-fixed-dim/5 relative"><div class="w-full h-full flex justify-center items-center"></div></td>
+<td class="p-2 border-r border-outline-variant/50 text-center bg-tertiary-fixed/5 relative"><div class="w-full h-full flex justify-center items-center"></div></td>
+<td class="p-2 border-r border-outline-variant/50 text-center bg-tertiary-fixed/5 relative"><div class="w-full h-full flex justify-center items-center"><div class="w-6 h-6 rounded-full bg-tertiary text-white flex items-center justify-center text-xs font-bold shadow-sm">1</div></div></td>
+<td class="p-2 border-r border-outline-variant/50 text-center bg-tertiary-fixed/5 relative"><div class="w-full h-full flex justify-center items-center"></div></td>
+<td class="p-2 border-r border-outline-variant/50 text-center bg-tertiary-fixed/5 relative"><div class="w-full h-full flex justify-center items-center"></div></td>
+<td class="p-2 border-r border-outline-variant/50 text-center bg-tertiary-fixed/5 relative"><div class="w-full h-full flex justify-center items-center"></div></td>
+<td class="p-2 text-center bg-tertiary-fixed/5 relative"><div class="w-full h-full flex justify-center items-center"></div></td>
+</tr>
+<!-- Row 2 -->
+<tr class="border-b border-outline-variant bg-matrix-alt/30 hover:bg-matrix-alt/50 transition-colors">
+<td class="p-4 text-center border-r border-outline-variant/50 text-on-surface-variant">2</td>
+<td class="p-4 border-r border-outline-variant/50 pr-8">Masih banyak terjadi perubahan kebijakan dan/atau regulasi</td>
+<td class="p-2 border-r border-outline-variant/50 text-center bg-primary-fixed-dim/10 relative"><div class="w-full h-full flex justify-center items-center"></div></td>
+<td class="p-2 border-r border-outline-variant/50 text-center bg-primary-fixed-dim/10 relative"><div class="w-full h-full flex justify-center items-center"></div></td>
+<td class="p-2 border-r border-outline-variant/50 text-center bg-primary-fixed-dim/10 relative"><div class="w-full h-full flex justify-center items-center"></div></td>
+<td class="p-2 border-r border-outline-variant/50 text-center bg-primary-fixed-dim/10 relative"><div class="w-full h-full flex justify-center items-center"></div></td>
+<td class="p-2 border-r border-outline-variant/50 text-center bg-primary-fixed-dim/10 relative"><div class="w-full h-full flex justify-center items-center"></div></td>
+<td class="p-2 border-r border-outline-variant/50 text-center bg-primary-fixed-dim/10 relative"><div class="w-full h-full flex justify-center items-center"><div class="w-6 h-6 rounded-full bg-primary text-white flex items-center justify-center text-xs font-bold shadow-sm">5</div></div></td>
+<td class="p-2 border-r border-outline-variant/50 text-center bg-tertiary-fixed/10 relative"><div class="w-full h-full flex justify-center items-center"></div></td>
+<td class="p-2 border-r border-outline-variant/50 text-center bg-tertiary-fixed/10 relative"><div class="w-full h-full flex justify-center items-center"></div></td>
+<td class="p-2 border-r border-outline-variant/50 text-center bg-tertiary-fixed/10 relative"><div class="w-full h-full flex justify-center items-center"><div class="w-6 h-6 rounded-full bg-tertiary text-white flex items-center justify-center text-xs font-bold shadow-sm">2</div></div></td>
+<td class="p-2 border-r border-outline-variant/50 text-center bg-tertiary-fixed/10 relative"><div class="w-full h-full flex justify-center items-center"></div></td>
+<td class="p-2 border-r border-outline-variant/50 text-center bg-tertiary-fixed/10 relative"><div class="w-full h-full flex justify-center items-center"></div></td>
+<td class="p-2 text-center bg-tertiary-fixed/10 relative"><div class="w-full h-full flex justify-center items-center"></div></td>
+</tr>
+<!-- Row 3 -->
+<tr class="border-b border-outline-variant hover:bg-surface-container-low/50 transition-colors">
+<td class="p-4 text-center border-r border-outline-variant/50 text-on-surface-variant">3</td>
+<td class="p-4 border-r border-outline-variant/50 pr-8">Pedoman teknis dan prosedur pelaksanaan proyek mengenai Design and Build dibuat oleh Owner belum cukup jelas</td>
+<td class="p-2 border-r border-outline-variant/50 text-center bg-primary-fixed-dim/5 relative"><div class="w-full h-full flex justify-center items-center"></div></td>
+<td class="p-2 border-r border-outline-variant/50 text-center bg-primary-fixed-dim/5 relative"><div class="w-full h-full flex justify-center items-center"></div></td>
+<td class="p-2 border-r border-outline-variant/50 text-center bg-primary-fixed-dim/5 relative"><div class="w-full h-full flex justify-center items-center"></div></td>
+<td class="p-2 border-r border-outline-variant/50 text-center bg-primary-fixed-dim/5 relative"><div class="w-full h-full flex justify-center items-center"></div></td>
+<td class="p-2 border-r border-outline-variant/50 text-center bg-primary-fixed-dim/5 relative"><div class="w-full h-full flex justify-center items-center"></div></td>
+<td class="p-2 border-r border-outline-variant/50 text-center bg-primary-fixed-dim/5 relative"><div class="w-full h-full flex justify-center items-center"><div class="w-6 h-6 rounded-full bg-primary text-white flex items-center justify-center text-xs font-bold shadow-sm">5</div></div></td>
+<td class="p-2 border-r border-outline-variant/50 text-center bg-tertiary-fixed/5 relative"><div class="w-full h-full flex justify-center items-center"><div class="w-6 h-6 rounded-full bg-outline text-white flex items-center justify-center text-xs font-bold shadow-sm">0</div></div></td>
+<td class="p-2 border-r border-outline-variant/50 text-center bg-tertiary-fixed/5 relative"><div class="w-full h-full flex justify-center items-center"></div></td>
+<td class="p-2 border-r border-outline-variant/50 text-center bg-tertiary-fixed/5 relative"><div class="w-full h-full flex justify-center items-center"></div></td>
+<td class="p-2 border-r border-outline-variant/50 text-center bg-tertiary-fixed/5 relative"><div class="w-full h-full flex justify-center items-center"></div></td>
+<td class="p-2 border-r border-outline-variant/50 text-center bg-tertiary-fixed/5 relative"><div class="w-full h-full flex justify-center items-center"></div></td>
+<td class="p-2 text-center bg-tertiary-fixed/5 relative"><div class="w-full h-full flex justify-center items-center"></div></td>
+</tr>
+<!-- Add more rows as needed for the mockup... -->
+</tbody>
+</table>
+</div>
+</div>
+<!-- Summary & Actions -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-[40px]">
+<div class="bg-primary-fixed-dim/10 rounded-lg p-6 border border-primary/20 flex flex-col justify-center">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider mb-2">Kemungkinan Terjadi — Dinilai</span>
+<div class="font-headline-lg text-headline-lg text-on-surface flex items-baseline gap-1">
+<span>38</span>
+<span class="text-headline-md text-on-surface-variant">/38</span>
+</div>
+</div>
+<div class="bg-tertiary-fixed/10 rounded-lg p-6 border border-tertiary/20 flex flex-col justify-center">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider mb-2">Keparahan Dampak — Dinilai</span>
+<div class="font-headline-lg text-headline-lg text-on-surface flex items-baseline gap-1">
+<span>38</span>
+<span class="text-headline-md text-on-surface-variant">/38</span>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between border-t border-outline-variant pt-8">
+<button class="px-6 py-3 rounded-lg border border-outline-variant text-on-surface font-label-md text-label-md hover:bg-surface-container transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+                Kembali
+            </button>
+<button class="px-6 py-3 rounded-lg bg-primary text-on-primary font-label-md text-label-md hover:bg-primary/90 transition-colors shadow-sm flex items-center gap-2">
+                Lanjutkan
+                <span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-surface dark:bg-surface-dim border-t border-outline-variant w-full py-unit flex flex-col items-center justify-center gap-2 mt-auto">
+<p class="font-body-md text-body-md text-on-surface dark:text-on-surface-variant">© 2024 Institut Teknologi Bandung. All rights reserved.</p>
+<div class="flex gap-4">
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Contact</a>
+</div>
+</footer>
+</body></html>

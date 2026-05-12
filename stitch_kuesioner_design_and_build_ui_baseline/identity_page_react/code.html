@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Identitas Responden - Kuesioner Design and Build</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&amp;family=Public+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface": "#f8f9fa",
+                        "tertiary-fixed": "#d1e4ff",
+                        "primary-fixed-dim": "#a0c9ff",
+                        "surface-bright": "#f8f9fa",
+                        "on-error": "#ffffff",
+                        "secondary-container": "#a7eafa",
+                        "background": "#f8f9fa",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed": "#d2e4ff",
+                        "outline": "#727781",
+                        "surface-container": "#edeeef",
+                        "tertiary-container": "#4c6f97",
+                        "on-primary-fixed": "#001c37",
+                        "primary": "#025695",
+                        "secondary": "#1c6775",
+                        "surface-variant": "#e1e3e4",
+                        "on-tertiary-container": "#e7f0ff",
+                        "inverse-on-surface": "#f0f1f2",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-fixed-variant": "#004e5a",
+                        "error-container": "#ffdad6",
+                        "surface-dim": "#d9dadb",
+                        "outline-variant": "#c1c7d2",
+                        "on-tertiary-fixed-variant": "#24496e",
+                        "secondary-fixed": "#aaedfd",
+                        "tertiary-fixed-dim": "#a6c9f6",
+                        "secondary-fixed-dim": "#8ed1e0",
+                        "on-secondary-fixed": "#001f25",
+                        "on-primary-fixed-variant": "#00497f",
+                        "inverse-surface": "#2e3132",
+                        "on-surface-variant": "#414750",
+                        "on-background": "#191c1d",
+                        "on-secondary-container": "#226b79",
+                        "on-tertiary-fixed": "#001d36",
+                        "on-primary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "tertiary": "#33567d",
+                        "inverse-primary": "#a0c9ff",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-container": "#e7efff",
+                        "surface-tint": "#1a61a0",
+                        "on-surface": "#191c1d",
+                        "surface-container-low": "#f3f4f5",
+                        "surface-container-high": "#e7e8e9",
+                        "primary-container": "#2f6faf",
+                        "on-error-container": "#93000a",
+                        "surface-container-highest": "#e1e3e4",
+                        "input-beige": "#f5f3ef"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px",
+                        "input": "8px",
+                        "card": "12px"
+                    },
+                    "spacing": {
+                        "unit": "8px",
+                        "margin-desktop": "40px",
+                        "gutter": "24px",
+                        "margin-mobile": "16px",
+                        "container-max-width": "1200px"
+                    },
+                    "fontFamily": {
+                        "title-lg": ["Public Sans"],
+                        "label-md": ["Public Sans"],
+                        "headline-md": ["Playfair Display"],
+                        "display-xl": ["Playfair Display"],
+                        "label-sm": ["Public Sans"],
+                        "headline-lg": ["Playfair Display"],
+                        "body-md": ["Public Sans"],
+                        "body-lg": ["Public Sans"]
+                    },
+                    "fontSize": {
+                        "title-lg": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "label-md": ["13px", { "lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "display-xl": ["48px", { "lineHeight": "60px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "700" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .input-focus-ring:focus-within {
+            border-color: #025695;
+            box-shadow: 0 0 0 2px rgba(2, 86, 149, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="bg-secondary dark:bg-secondary-container shadow-sm dark:shadow-none docked full-width top-0 z-50">
+<div class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop h-16 max-w-container-max-width mx-auto">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-title-lg font-headline-md text-on-secondary dark:text-on-secondary-container">apartment</span>
+<span class="text-title-lg font-headline-md text-on-secondary dark:text-on-secondary-container">Kuesioner Design and Build</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="flex items-center justify-center w-10 h-10 rounded-full hover:bg-on-secondary/10 transition-colors text-on-secondary dark:text-on-secondary-container">
+<span class="material-symbols-outlined" data-weight="fill" style="font-variation-settings: 'FILL' 1;">dark_mode</span>
+</button>
+<div class="flex items-center bg-on-secondary/10 rounded-full p-1 border border-on-secondary/20">
+<button class="px-3 py-1 rounded-full bg-on-secondary text-secondary font-label-md text-label-md transition-colors">ID</button>
+<button class="px-3 py-1 rounded-full text-on-secondary font-label-md text-label-md hover:bg-on-secondary/10 transition-colors">EN</button>
+</div>
+<button class="flex items-center gap-2 px-4 py-2 rounded-full bg-on-secondary/10 hover:bg-on-secondary/20 transition-colors text-on-secondary dark:text-on-secondary-container font-label-md text-label-md border border-on-secondary/20">
+<span class="material-symbols-outlined text-sm">lock</span>
+                    Admin
+                </button>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow flex flex-col items-center pb-20">
+<!-- Stepper Container -->
+<div class="w-full bg-surface-container-lowest shadow-[0_4px_20px_rgba(0,0,0,0.02)] mb-8 pt-8 pb-4">
+<div class="max-w-[1000px] mx-auto px-margin-mobile md:px-margin-desktop relative">
+<div class="flex justify-between items-center relative z-10">
+<!-- Step 1: Mulai -->
+<div class="flex flex-col items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-[#4CAF50] text-white flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">check</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Mulai</span>
+</div>
+<!-- Connector -->
+<div class="flex-grow h-px bg-outline-variant/50 mx-4"></div>
+<!-- Step 2: Persetujuan -->
+<div class="flex flex-col items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-[#4CAF50] text-white flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">check</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Persetujuan</span>
+</div>
+<!-- Connector -->
+<div class="flex-grow h-px bg-primary mx-4"></div>
+<!-- Step 3: Identitas (Active) -->
+<div class="flex flex-col items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm">
+                            2
+                        </div>
+<span class="font-label-sm text-label-sm text-primary font-bold">Identitas</span>
+</div>
+<!-- Connector -->
+<div class="flex-grow h-px bg-outline-variant/50 mx-4"></div>
+<!-- Step 4: Penilaian -->
+<div class="flex flex-col items-center gap-2 opacity-50">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest border border-outline-variant text-on-surface-variant flex items-center justify-center font-bold text-sm">
+                            3
+                        </div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Penilaian</span>
+</div>
+<!-- Connector -->
+<div class="flex-grow h-px bg-outline-variant/50 mx-4 hidden md:block"></div>
+<!-- Step 5: Idea -->
+<div class="flex flex-col items-center gap-2 opacity-50 hidden md:flex">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest border border-outline-variant text-on-surface-variant flex items-center justify-center font-bold text-sm">
+                            4
+                        </div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Idea</span>
+</div>
+<!-- Connectors and remaining steps omitted for brevity but following pattern -->
+<div class="flex-grow h-px bg-outline-variant/50 mx-4 hidden lg:block"></div>
+<div class="flex flex-col items-center gap-2 opacity-50 hidden lg:flex">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest border border-outline-variant text-on-surface-variant flex items-center justify-center font-bold text-sm">
+                            5
+                        </div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Planning</span>
+</div>
+</div>
+<div class="text-right mt-6">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Langkah 2 dari 10</span>
+</div>
+</div>
+</div>
+<!-- Form Container -->
+<div class="w-full max-w-[900px] px-margin-mobile md:px-margin-desktop">
+<div class="flex items-center gap-3 mb-8">
+<span class="material-symbols-outlined text-[32px] text-primary" data-weight="fill" style="font-variation-settings: 'FILL' 1;">assignment_ind</span>
+<h1 class="font-headline-lg text-headline-lg text-on-surface">Identitas Responden</h1>
+</div>
+<form class="bg-surface-container-lowest rounded-card border border-outline-variant/30 shadow-[0_4px_20px_rgba(0,0,0,0.05)] p-6 md:p-10 space-y-8">
+<!-- Text Inputs Section -->
+<div class="space-y-6">
+<!-- Nama Responden -->
+<div class="grid grid-cols-1 md:grid-cols-[250px_1fr] gap-2 md:gap-6 items-center">
+<label class="font-label-md text-label-md text-on-surface" for="nama">Nama Responden *</label>
+<div class="relative rounded-input border border-outline-variant/50 bg-input-beige overflow-hidden input-focus-ring transition-all">
+<input class="w-full bg-transparent border-none py-3 px-4 font-body-md text-body-md text-on-surface focus:ring-0" id="nama" name="nama" required="" type="text" value="kj"/>
+</div>
+</div>
+<!-- Nama Perusahaan -->
+<div class="grid grid-cols-1 md:grid-cols-[250px_1fr] gap-2 md:gap-6 items-center">
+<label class="font-label-md text-label-md text-on-surface" for="perusahaan">Nama Perusahaan/Instansi *</label>
+<div class="relative rounded-input border border-outline-variant/50 bg-input-beige overflow-hidden input-focus-ring transition-all">
+<input class="w-full bg-transparent border-none py-3 px-4 font-body-md text-body-md text-on-surface focus:ring-0" id="perusahaan" name="perusahaan" required="" type="text" value="hhk"/>
+</div>
+</div>
+<!-- No Telepon -->
+<div class="grid grid-cols-1 md:grid-cols-[250px_1fr] gap-2 md:gap-6 items-center">
+<label class="font-label-md text-label-md text-on-surface" for="telepon">No. Telepon</label>
+<div class="relative rounded-input border border-outline-variant/50 bg-input-beige overflow-hidden input-focus-ring transition-all">
+<input class="w-full bg-transparent border-none py-3 px-4 font-body-md text-body-md text-on-surface focus:ring-0 placeholder-on-surface-variant/50" id="telepon" name="telepon" placeholder="08xx-xxxx-xxxx" type="tel"/>
+</div>
+</div>
+<!-- Email -->
+<div class="grid grid-cols-1 md:grid-cols-[250px_1fr] gap-2 md:gap-6 items-center">
+<label class="font-label-md text-label-md text-on-surface" for="email">Email</label>
+<div class="relative rounded-input border border-outline-variant/50 bg-input-beige overflow-hidden input-focus-ring transition-all">
+<input class="w-full bg-transparent border-none py-3 px-4 font-body-md text-body-md text-on-surface focus:ring-0 placeholder-on-surface-variant/50" id="email" name="email" placeholder="email@domain.com" type="email"/>
+</div>
+</div>
+</div>
+<hr class="border-outline-variant/30"/>
+<!-- Demographics Section -->
+<div class="space-y-8">
+<!-- Kelompok Umur -->
+<div>
+<p class="font-label-md text-label-md text-on-surface mb-3">Kelompok Umur (tahun)?</p>
+<div class="space-y-2">
+<label class="flex items-center p-3 rounded-input border border-outline-variant/30 bg-input-beige hover:bg-surface-variant/30 cursor-pointer transition-colors">
+<input class="w-4 h-4 text-primary border-outline-variant focus:ring-primary focus:ring-offset-input-beige" name="umur" type="radio" value="&lt;20"/>
+<span class="ml-3 font-body-md text-body-md text-on-surface">&lt; 20</span>
+</label>
+<label class="flex items-center p-3 rounded-input border border-outline-variant/30 bg-input-beige hover:bg-surface-variant/30 cursor-pointer transition-colors">
+<input class="w-4 h-4 text-primary border-outline-variant focus:ring-primary focus:ring-offset-input-beige" name="umur" type="radio" value="21-35"/>
+<span class="ml-3 font-body-md text-body-md text-on-surface">21–35</span>
+</label>
+<label class="flex items-center p-3 rounded-input border border-outline-variant/30 bg-input-beige hover:bg-surface-variant/30 cursor-pointer transition-colors">
+<input class="w-4 h-4 text-primary border-outline-variant focus:ring-primary focus:ring-offset-input-beige" name="umur" type="radio" value="36-50"/>
+<span class="ml-3 font-body-md text-body-md text-on-surface">36–50</span>
+</label>
+<label class="flex items-center p-3 rounded-input border border-outline-variant/30 bg-input-beige hover:bg-surface-variant/30 cursor-pointer transition-colors">
+<input class="w-4 h-4 text-primary border-outline-variant focus:ring-primary focus:ring-offset-input-beige" name="umur" type="radio" value="&gt;50"/>
+<span class="ml-3 font-body-md text-body-md text-on-surface">&gt; 50</span>
+</label>
+</div>
+</div>
+<!-- Tingkat Pendidikan -->
+<div>
+<p class="font-label-md text-label-md text-on-surface mb-3">Tingkat pendidikan terakhir?</p>
+<div class="space-y-2">
+<label class="flex items-center p-3 rounded-input border border-outline-variant/30 bg-input-beige hover:bg-surface-variant/30 cursor-pointer transition-colors">
+<input class="w-4 h-4 text-primary border-outline-variant focus:ring-primary focus:ring-offset-input-beige" name="pendidikan" type="radio" value="d3_s1"/>
+<span class="ml-3 font-body-md text-body-md text-on-surface">Diploma/Sarjana (D3/S1)</span>
+</label>
+<label class="flex items-center p-3 rounded-input border border-outline-variant/30 bg-input-beige hover:bg-surface-variant/30 cursor-pointer transition-colors">
+<input class="w-4 h-4 text-primary border-outline-variant focus:ring-primary focus:ring-offset-input-beige" name="pendidikan" type="radio" value="s2_s3"/>
+<span class="ml-3 font-body-md text-body-md text-on-surface">Pascasarjana (S2/S3)</span>
+</label>
+</div>
+</div>
+</div>
+<hr class="border-outline-variant/30"/>
+<!-- Stakeholder Positions Section -->
+<div>
+<p class="font-label-md text-label-md text-on-surface mb-4">Posisi Stakeholders dalam proyek <em class="font-serif">Design and Build</em> (DB)? (pilih hanya satu)</p>
+<div class="space-y-6">
+<!-- Owner Sub-group -->
+<div>
+<p class="font-label-sm text-label-sm text-primary mb-2 uppercase tracking-wide">Owner</p>
+<div class="space-y-2">
+<label class="flex items-center p-3 rounded-input border border-outline-variant/30 bg-input-beige hover:bg-surface-variant/30 cursor-pointer transition-colors">
+<input class="w-4 h-4 text-primary border-outline-variant focus:ring-primary focus:ring-offset-input-beige" name="posisi" type="radio" value="pemilik_proyek"/>
+<span class="ml-3 font-body-md text-body-md text-on-surface">Pemilik Proyek</span>
+</label>
+<label class="flex items-center p-3 rounded-input border border-outline-variant/30 bg-input-beige hover:bg-surface-variant/30 cursor-pointer transition-colors">
+<input class="w-4 h-4 text-primary border-outline-variant focus:ring-primary focus:ring-offset-input-beige" name="posisi" type="radio" value="ppk"/>
+<span class="ml-3 font-body-md text-body-md text-on-surface">Pejabat Pembuat Komitmen (PPK)</span>
+</label>
+<label class="flex items-center p-3 rounded-input border border-outline-variant/30 bg-input-beige hover:bg-surface-variant/30 cursor-pointer transition-colors">
+<input class="w-4 h-4 text-primary border-outline-variant focus:ring-primary focus:ring-offset-input-beige" name="posisi" type="radio" value="unit_teknis"/>
+<span class="ml-3 font-body-md text-body-md text-on-surface">Unit Teknis (Satker/Balai/Direktorat)</span>
+</label>
+<label class="flex items-center p-3 rounded-input border border-outline-variant/30 bg-input-beige hover:bg-surface-variant/30 cursor-pointer transition-colors">
+<input class="w-4 h-4 text-primary border-outline-variant focus:ring-primary focus:ring-offset-input-beige" name="posisi" type="radio" value="tim_teknis"/>
+<span class="ml-3 font-body-md text-body-md text-on-surface">Tim Teknis/Pengelola Proyek</span>
+</label>
+</div>
+</div>
+<!-- Kontraktor Sub-group -->
+<div>
+<p class="font-label-sm text-label-sm text-primary mb-2 uppercase tracking-wide">Kontraktor</p>
+<div class="space-y-2">
+<label class="flex items-center p-3 rounded-input border border-outline-variant/30 bg-input-beige hover:bg-surface-variant/30 cursor-pointer transition-colors">
+<input class="w-4 h-4 text-primary border-outline-variant focus:ring-primary focus:ring-offset-input-beige" name="posisi" type="radio" value="pm"/>
+<span class="ml-3 font-body-md text-body-md text-on-surface"><em class="font-serif">Project Manager</em> (PM)</span>
+</label>
+<label class="flex items-center p-3 rounded-input border border-outline-variant/30 bg-input-beige hover:bg-surface-variant/30 cursor-pointer transition-colors">
+<input class="w-4 h-4 text-primary border-outline-variant focus:ring-primary focus:ring-offset-input-beige" name="posisi" type="radio" value="sam"/>
+<span class="ml-3 font-body-md text-body-md text-on-surface"><em class="font-serif">Site Administrator Manager</em> (SAM)</span>
+</label>
+<label class="flex items-center p-3 rounded-input border border-outline-variant/30 bg-input-beige hover:bg-surface-variant/30 cursor-pointer transition-colors">
+<input class="w-4 h-4 text-primary border-outline-variant focus:ring-primary focus:ring-offset-input-beige" name="posisi" type="radio" value="sem"/>
+<span class="ml-3 font-body-md text-body-md text-on-surface"><em class="font-serif">Site Engineering Manager</em> (SEM)</span>
+</label>
+<label class="flex items-center p-3 rounded-input border border-outline-variant/30 bg-input-beige hover:bg-surface-variant/30 cursor-pointer transition-colors">
+<input class="w-4 h-4 text-primary border-outline-variant focus:ring-primary focus:ring-offset-input-beige" name="posisi" type="radio" value="som"/>
+<span class="ml-3 font-body-md text-body-md text-on-surface"><em class="font-serif">Site Operational Manager</em> (SOM)</span>
+</label>
+<div class="flex items-center p-3 rounded-input border border-outline-variant/30 bg-input-beige hover:bg-surface-variant/30 cursor-pointer transition-colors gap-3">
+<input class="w-4 h-4 text-primary border-outline-variant focus:ring-primary focus:ring-offset-input-beige" id="posisi_lainnya" name="posisi" type="radio" value="lainnya"/>
+<label class="font-body-md text-body-md text-on-surface whitespace-nowrap" for="posisi_lainnya">Lainnya (sebutkan):</label>
+<input class="flex-grow bg-transparent border-b border-outline-variant/50 focus:border-primary focus:ring-0 py-1 px-2 font-body-md text-body-md text-on-surface" type="text"/>
+</div>
+</div>
+</div>
+</div>
+</div>
+<hr class="border-outline-variant/30"/>
+<!-- Action Buttons -->
+<div class="flex items-center gap-4 pt-4">
+<button class="px-6 py-3 rounded-input border border-outline-variant text-on-surface-variant font-label-md text-label-md hover:bg-surface-variant/50 transition-colors flex items-center gap-2" type="button">
+<span class="material-symbols-outlined text-[18px]">arrow_back</span>
+                        Kembali
+                    </button>
+<button class="px-6 py-3 rounded-input bg-primary text-on-primary font-label-md text-label-md hover:bg-primary/90 transition-colors flex items-center gap-2 shadow-[0_2px_8px_rgba(2,86,149,0.2)]" type="submit">
+                        Lanjutkan
+                        <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+</form>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-surface dark:bg-surface-dim full-width bottom-0 border-t border-outline-variant flat no shadows">
+<div class="w-full py-unit flex flex-col items-center justify-center gap-2 max-w-container-max-width mx-auto">
+<span class="font-label-md text-label-md text-primary">Kuesioner Design and Build</span>
+<p class="font-body-md text-body-md text-on-surface-variant">© 2024 Institut Teknologi Bandung. All rights reserved.</p>
+<div class="flex gap-4">
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Contact</a>
+</div>
+</div>
+</footer>
+</body></html>

@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Kuesioner Design and Build - Persetujuan</title>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&amp;family=Playfair+Display:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-tertiary-fixed-variant": "#24496e",
+                      "on-tertiary": "#ffffff",
+                      "surface-container": "#edeeef",
+                      "inverse-primary": "#a0c9ff",
+                      "outline-variant": "#c1c7d2",
+                      "surface-bright": "#f8f9fa",
+                      "error": "#ba1a1a",
+                      "on-background": "#191c1d",
+                      "on-surface-variant": "#414750",
+                      "error-container": "#ffdad6",
+                      "on-primary-fixed-variant": "#00497f",
+                      "on-error-container": "#93000a",
+                      "primary-fixed": "#d2e4ff",
+                      "on-secondary-container": "#226b79",
+                      "on-secondary-fixed": "#001f25",
+                      "secondary-fixed-dim": "#8ed1e0",
+                      "on-primary-container": "#e7efff",
+                      "inverse-surface": "#2e3132",
+                      "surface-container-high": "#e7e8e9",
+                      "on-tertiary-fixed": "#001d36",
+                      "on-error": "#ffffff",
+                      "secondary-container": "#a7eafa",
+                      "secondary-fixed": "#aaedfd",
+                      "primary": "#025695",
+                      "on-secondary-fixed-variant": "#004e5a",
+                      "surface": "#f8f9fa",
+                      "surface-container-low": "#f3f4f5",
+                      "inverse-on-surface": "#f0f1f2",
+                      "outline": "#727781",
+                      "tertiary-fixed": "#d1e4ff",
+                      "tertiary-fixed-dim": "#a6c9f6",
+                      "surface-tint": "#1a61a0",
+                      "secondary": "#1c6775",
+                      "primary-fixed-dim": "#a0c9ff",
+                      "tertiary-container": "#4c6f97",
+                      "surface-dim": "#d9dadb",
+                      "primary-container": "#2f6faf",
+                      "on-surface": "#191c1d",
+                      "tertiary": "#33567d",
+                      "surface-variant": "#e1e3e4",
+                      "surface-container-highest": "#e1e3e4",
+                      "on-primary-fixed": "#001c37",
+                      "surface-container-lowest": "#ffffff",
+                      "on-primary": "#ffffff",
+                      "background": "#f8f9fa",
+                      "on-tertiary-container": "#e7f0ff",
+                      "on-secondary": "#ffffff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "margin-desktop": "40px",
+                      "unit": "8px",
+                      "container-max-width": "1200px",
+                      "margin-mobile": "16px",
+                      "gutter": "24px"
+              },
+              "fontFamily": {
+                      "title-lg": [
+                              "Public Sans"
+                      ],
+                      "label-sm": [
+                              "Public Sans"
+                      ],
+                      "body-lg": [
+                              "Public Sans"
+                      ],
+                      "headline-lg": [
+                              "Playfair Display"
+                      ],
+                      "headline-md": [
+                              "Playfair Display"
+                      ],
+                      "display-xl": [
+                              "Playfair Display"
+                      ],
+                      "label-md": [
+                              "Public Sans"
+                      ],
+                      "body-md": [
+                              "Public Sans"
+                      ]
+              },
+              "fontSize": {
+                      "title-lg": [
+                              "20px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "body-lg": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "display-xl": [
+                              "48px",
+                              {
+                                      "lineHeight": "60px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "label-md": [
+                              "13px",
+                              {
+                                      "lineHeight": "18px",
+                                      "letterSpacing": "0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+</head>
+<body class="bg-surface font-body-md text-on-surface antialiased min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="bg-secondary dark:bg-secondary-container text-on-secondary dark:text-on-secondary-container shadow-sm flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop h-16 sticky top-0 z-50">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-2xl" data-weight="fill">account_balance</span>
+<h1 class="text-title-lg font-headline-md text-on-secondary dark:text-on-secondary-container">Kuesioner Design and Build</h1>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4">
+<button aria-label="Toggle dark mode" class="w-8 h-8 rounded-full flex items-center justify-center hover:bg-on-secondary/10 transition-colors">
+<span class="material-symbols-outlined text-on-secondary">dark_mode</span>
+</button>
+<div class="flex bg-on-secondary/10 rounded-lg overflow-hidden border border-on-secondary/20">
+<button class="px-3 py-1 font-label-md text-label-md bg-on-secondary text-secondary">ID</button>
+<button class="px-3 py-1 font-label-md text-label-md text-on-secondary hover:bg-on-secondary/20 transition-colors">EN</button>
+</div>
+</div>
+<div class="flex items-center gap-2 px-3 py-1.5 bg-on-secondary/10 rounded-lg border border-on-secondary/20 hover:bg-on-secondary/20 transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-sm">lock</span>
+<span class="font-label-md text-label-md">Admin</span>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-grow flex flex-col items-center w-full pb-20">
+<!-- Stepper Navigation -->
+<div class="w-full bg-surface-container-lowest border-b border-outline-variant/30 py-6 px-margin-mobile md:px-margin-desktop shadow-sm flex flex-col items-center">
+<div class="max-w-[1200px] w-full">
+<!-- Stepper Circles -->
+<div class="flex items-center justify-between w-full relative mb-4 px-4 overflow-x-auto hide-scrollbar">
+<!-- Line Connector (Background) -->
+<div class="absolute top-1/2 left-0 w-full h-[2px] bg-outline-variant/30 -z-10 translate-y-[-50%]"></div>
+<!-- Line Connector (Active Progress) -->
+<div class="absolute top-1/2 left-0 w-[15%] h-[2px] bg-primary -z-10 translate-y-[-50%] transition-all duration-300"></div>
+<!-- Step: Mulai (Completed) -->
+<div class="flex flex-col items-center gap-2 relative z-10 bg-surface-container-lowest px-2 min-w-[60px]">
+<div class="w-8 h-8 rounded-full bg-[#2e7d32] text-white flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-sm font-bold">check</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant whitespace-nowrap">Mulai</span>
+</div>
+<!-- Step: Persetujuan (Active) -->
+<div class="flex flex-col items-center gap-2 relative z-10 bg-surface-container-lowest px-2 min-w-[60px]">
+<div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center shadow-sm font-bold text-sm">
+                            1
+                        </div>
+<span class="font-label-sm text-label-sm text-primary font-bold whitespace-nowrap">Persetujuan</span>
+</div>
+<!-- Step: Identitas (Upcoming) -->
+<div class="flex flex-col items-center gap-2 relative z-10 bg-surface-container-lowest px-2 min-w-[60px]">
+<div class="w-8 h-8 rounded-full bg-surface-variant text-on-surface-variant flex items-center justify-center border border-outline-variant/50 text-sm">
+                            2
+                        </div>
+<span class="font-label-sm text-label-sm text-on-surface-variant whitespace-nowrap">Identitas</span>
+</div>
+<!-- Step: Penilaian (Upcoming) -->
+<div class="flex flex-col items-center gap-2 relative z-10 bg-surface-container-lowest px-2 min-w-[60px]">
+<div class="w-8 h-8 rounded-full bg-surface-variant text-on-surface-variant flex items-center justify-center border border-outline-variant/50 text-sm">
+                            3
+                        </div>
+<span class="font-label-sm text-label-sm text-on-surface-variant whitespace-nowrap">Penilaian</span>
+</div>
+<!-- Step: Idea (Upcoming) -->
+<div class="flex flex-col items-center gap-2 relative z-10 bg-surface-container-lowest px-2 min-w-[60px]">
+<div class="w-8 h-8 rounded-full bg-surface-variant text-on-surface-variant flex items-center justify-center border border-outline-variant/50 text-sm">
+                            4
+                        </div>
+<span class="font-label-sm text-label-sm text-on-surface-variant whitespace-nowrap">Idea</span>
+</div>
+<!-- Step: Planning (Upcoming) -->
+<div class="flex flex-col items-center gap-2 relative z-10 bg-surface-container-lowest px-2 min-w-[60px]">
+<div class="w-8 h-8 rounded-full bg-surface-variant text-on-surface-variant flex items-center justify-center border border-outline-variant/50 text-sm">
+                            5
+                        </div>
+<span class="font-label-sm text-label-sm text-on-surface-variant whitespace-nowrap">Planning</span>
+</div>
+<!-- Step: Design (Upcoming) -->
+<div class="flex flex-col items-center gap-2 relative z-10 bg-surface-container-lowest px-2 min-w-[60px]">
+<div class="w-8 h-8 rounded-full bg-surface-variant text-on-surface-variant flex items-center justify-center border border-outline-variant/50 text-sm">
+                            6
+                        </div>
+<span class="font-label-sm text-label-sm text-on-surface-variant whitespace-nowrap">Design</span>
+</div>
+<!-- Step: Construction (Upcoming) -->
+<div class="flex flex-col items-center gap-2 relative z-10 bg-surface-container-lowest px-2 min-w-[60px]">
+<div class="w-8 h-8 rounded-full bg-surface-variant text-on-surface-variant flex items-center justify-center border border-outline-variant/50 text-sm">
+                            7
+                        </div>
+<span class="font-label-sm text-label-sm text-on-surface-variant whitespace-nowrap">Construction</span>
+</div>
+<!-- Step: O&M (Upcoming) -->
+<div class="flex flex-col items-center gap-2 relative z-10 bg-surface-container-lowest px-2 min-w-[60px]">
+<div class="w-8 h-8 rounded-full bg-surface-variant text-on-surface-variant flex items-center justify-center border border-outline-variant/50 text-sm">
+                            8
+                        </div>
+<span class="font-label-sm text-label-sm text-on-surface-variant whitespace-nowrap">O&amp;M</span>
+</div>
+<!-- Step: Terbuka (Upcoming) -->
+<div class="flex flex-col items-center gap-2 relative z-10 bg-surface-container-lowest px-2 min-w-[60px]">
+<div class="w-8 h-8 rounded-full bg-surface-variant text-on-surface-variant flex items-center justify-center border border-outline-variant/50 text-sm">
+                            9
+                        </div>
+<span class="font-label-sm text-label-sm text-on-surface-variant whitespace-nowrap">Terbuka</span>
+</div>
+<!-- Step: Selesai (Upcoming) -->
+<div class="flex flex-col items-center gap-2 relative z-10 bg-surface-container-lowest px-2 min-w-[60px]">
+<div class="w-8 h-8 rounded-full bg-surface-variant text-on-surface-variant flex items-center justify-center border border-outline-variant/50 text-sm">
+                            10
+                        </div>
+<span class="font-label-sm text-label-sm text-on-surface-variant whitespace-nowrap">Selesai</span>
+</div>
+</div>
+<!-- Linear Progress Bar -->
+<div class="flex items-center gap-4 mt-6">
+<div class="flex-grow h-1.5 bg-surface-variant rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full w-[10%]"></div>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant whitespace-nowrap">Langkah 1 dari 10</span>
+</div>
+</div>
+</div>
+<!-- Form Canvas -->
+<div class="max-w-[1200px] w-full px-margin-mobile md:px-margin-desktop mt-10">
+<!-- Page Title -->
+<div class="flex items-center gap-3 mb-8">
+<span class="material-symbols-outlined text-3xl text-[#d97757]">description</span>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Lembar Informasi &amp; Persetujuan</h2>
+</div>
+<!-- Bento Grid Informational Cards -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+<!-- Card 1: Tujuan -->
+<div class="bg-[#f5f4ef] rounded-xl p-6 border border-outline-variant/30 shadow-[0px_4px_20px_rgba(0,0,0,0.02)] transition-shadow hover:shadow-[0px_4px_20px_rgba(0,0,0,0.05)]">
+<h3 class="font-title-lg text-title-lg text-primary mb-3">Tujuan</h3>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                        Kuesioner ini bertujuan untuk mengidentifikasi permasalahan/tantangan, dan faktor keberhasilan dalam penerapan metode Design and Build (DB) pada proyek konstruksi sektor publik, khususnya pada proyek Ibu Kota Nusantara (IKN).
+                    </p>
+</div>
+<!-- Card 2: Kerahasiaan -->
+<div class="bg-[#f5f4ef] rounded-xl p-6 border border-outline-variant/30 shadow-[0px_4px_20px_rgba(0,0,0,0.02)] transition-shadow hover:shadow-[0px_4px_20px_rgba(0,0,0,0.05)]">
+<h3 class="font-title-lg text-title-lg text-primary mb-3">Kerahasiaan</h3>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                        Seluruh data identitas dan jawaban responden akan dijaga kerahasiaannya serta hanya digunakan untuk kepentingan akademik.
+                    </p>
+</div>
+<!-- Card 3: Sukarela -->
+<div class="bg-[#f5f4ef] rounded-xl p-6 border border-outline-variant/30 shadow-[0px_4px_20px_rgba(0,0,0,0.02)] transition-shadow hover:shadow-[0px_4px_20px_rgba(0,0,0,0.05)]">
+<h3 class="font-title-lg text-title-lg text-primary mb-3">Sukarela</h3>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                        Partisipasi Bapak/Ibu/Saudara/i bersifat sukarela. Tidak ada jawaban benar atau salah, sehingga responden diharapkan menjawab sesuai pengalaman dan kondisi nyata di lapangan.
+                    </p>
+</div>
+</div>
+<!-- Consent Checkbox Area -->
+<div class="bg-[#f5f4ef] rounded-xl p-6 border border-outline-variant/30 shadow-[0px_4px_20px_rgba(0,0,0,0.02)] mb-10">
+<label class="flex items-start gap-4 cursor-pointer group">
+<div class="relative flex items-center justify-center mt-0.5">
+<input checked="" class="w-6 h-6 rounded border-outline-variant text-primary focus:ring-primary focus:ring-2 focus:ring-offset-2 transition-all cursor-pointer bg-white" type="checkbox"/>
+</div>
+<span class="font-body-lg text-body-lg text-on-surface group-hover:text-primary transition-colors">
+                        Saya telah membaca informasi di atas dan bersedia melanjutkan pengisian kuesioner.
+                    </span>
+</label>
+</div>
+<!-- Action Buttons -->
+<div class="flex flex-col sm:flex-row items-center justify-start gap-4 border-t border-outline-variant/20 pt-8">
+<button class="w-full sm:w-auto px-6 py-2.5 rounded-lg border border-outline-variant bg-white text-on-surface-variant font-label-md text-label-md hover:bg-surface-variant hover:text-on-surface transition-colors flex items-center justify-center gap-2 shadow-sm">
+<span class="material-symbols-outlined text-sm">arrow_back</span>
+                    Kembali
+                </button>
+<button class="w-full sm:w-auto px-6 py-2.5 rounded-lg bg-primary text-white font-label-md text-label-md hover:bg-primary-container hover:text-on-primary-container transition-colors flex items-center justify-center gap-2 shadow-sm">
+                    Lanjutkan
+                    <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-surface dark:bg-surface-dim border-t border-outline-variant w-full py-unit flex flex-col items-center justify-center gap-2 mt-auto">
+<p class="font-body-md text-body-md text-on-surface dark:text-on-surface-variant">© 2024 Institut Teknologi Bandung. All rights reserved.</p>
+<div class="flex gap-4">
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Contact</a>
+</div>
+</footer>
+</body></html>

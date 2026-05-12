@@ -1,11 +1,51 @@
 @import 'tailwindcss';
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 @source '../**/*.blade.php';
 @source '../**/*.js';
+@source '../**/*.tsx';
+@source '../**/*.ts';
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    /* Breakpoints */
+    --breakpoint-desktop: 1200px;
+
+    /* Typography */
+    --font-display: 'Playfair Display', serif;
+    --font-sans: 'Public Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
+
+    /* Colors - Primary */
+    --color-primary: #025695;
+    --color-secondary: #1c6775;
+    --color-accent-green: #2e7d32;
+
+    /* Colors - Surfaces */
+    --color-surface: #ffffff;
+    --color-surface-beige: #F3F0EA;
+    --color-surface-beige-alt: #f3ece5;
+
+    /* Colors - Risk levels */
+    --color-risk-none: #9e9e9e;
+    --color-risk-low: #4caf50;
+    --color-risk-medium: #ffeb3b;
+    --color-risk-high: #ff9800;
+    --color-risk-very-high: #f44336;
+
+    /* Spacing - 8px base unit */
+    --spacing-1: 8px;
+    --spacing-2: 16px;
+    --spacing-3: 24px;
+    --spacing-4: 32px;
+    --spacing-5: 40px;
+
+    /* Border Radius */
+    --radius-sm: 8px;
+    --radius-md: 12px;
+
+    /* Shadows */
+    --shadow-card: 0px 4px 20px rgba(0, 0, 0, 0.05);
 }

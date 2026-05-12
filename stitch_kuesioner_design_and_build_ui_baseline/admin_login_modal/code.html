@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Admin Login Modal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Playfair+Display:wght@600&amp;display=swap" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            serif: ['Playfair Display', 'serif'],
+          },
+          colors: {
+            surface: '#ffffff',
+            primary: '#A33333', // Adjusted to match the visual red in the image
+            text: {
+              main: '#1a1a1a',
+              muted: '#6b7280'
+            },
+            border: '#e5e7eb'
+          },
+          borderRadius: {
+            'card': '0.75rem',
+            'input': '0.5rem'
+          },
+          boxShadow: {
+            'modal': '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04), 0 0 50px -12px rgba(0, 0, 0, 0.25)'
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-gray-200 antialiased font-sans text-text-main min-h-screen flex items-center justify-center p-4">
+<!-- BEGIN: AdminLoginModal -->
+<!-- Backdrop -->
+<div aria-labelledby="modal-title" aria-modal="true" class="fixed inset-0 bg-black/20 backdrop-blur-[2px] transition-opacity flex items-center justify-center p-4 z-50" role="dialog">
+<!-- Modal Container -->
+<div class="bg-surface w-full max-w-sm rounded-card shadow-modal overflow-hidden transform transition-all flex flex-col p-6 space-y-6">
+<!-- Modal Header -->
+<header class="flex items-start justify-between">
+<div class="flex items-center gap-3">
+<!-- Lock Icon -->
+<span aria-hidden="true" class="text-xl leading-none">🔒</span>
+<h2 class="font-serif text-xl font-semibold text-gray-900 tracking-tight" id="modal-title">Login Admin</h2>
+</div>
+<!-- Close Button -->
+<button aria-label="Close modal" class="text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-primary rounded-full p-1 -mr-2 -mt-2 transition-colors" type="button">
+<svg aria-hidden="true" class="h-5 w-5" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+</header>
+<!-- Description -->
+<div class="text-sm text-text-muted leading-relaxed">
+<p>Masukkan kredential admin untuk mengakses halaman admin sand.</p>
+</div>
+<!-- Login Form -->
+<form action="#" class="space-y-4" method="POST">
+<!-- Username Field -->
+<div class="space-y-1.5">
+<label class="block text-sm font-medium text-gray-700" for="username">Username</label>
+<input class="block w-full rounded-input border-gray-200 py-2.5 px-3.5 text-gray-900 shadow-sm focus:border-primary focus:ring-primary sm:text-sm placeholder:text-gray-400 transition-colors" id="username" name="username" placeholder="Username" required="" type="text"/>
+</div>
+<!-- Password Field -->
+<div class="space-y-1.5">
+<label class="block text-sm font-medium text-gray-700" for="password">Password</label>
+<input class="block w-full rounded-input border-gray-200 py-2.5 px-3.5 text-gray-900 shadow-sm focus:border-primary focus:ring-primary sm:text-sm placeholder:text-gray-400 transition-colors" id="password" name="password" placeholder="Password" required="" type="password"/>
+</div>
+<!-- Submit Button -->
+<div class="pt-2">
+<button class="w-full flex justify-center py-3 px-4 border border-transparent rounded-input shadow-sm text-sm font-medium text-white bg-primary hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors duration-200" type="submit">
+            Masuk sebagai Admin
+          </button>
+</div>
+</form>
+</div>
+</div>
+<!-- END: AdminLoginModal -->
+</body></html>

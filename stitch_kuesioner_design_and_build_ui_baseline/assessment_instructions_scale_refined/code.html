@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Assessment Instructions &amp; Scale - Kuesioner Design and Build</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=Public+Sans:ital,wght@0,100..900;1,100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "tertiary-fixed": "#d1e4ff",
+                      "primary": "#025695",
+                      "on-tertiary-fixed": "#001d36",
+                      "surface-tint": "#1a61a0",
+                      "secondary-container": "#a7eafa",
+                      "surface-variant": "#e1e3e4",
+                      "on-secondary": "#ffffff",
+                      "on-background": "#191c1d",
+                      "on-primary-fixed-variant": "#00497f",
+                      "primary-fixed": "#d2e4ff",
+                      "inverse-primary": "#a0c9ff",
+                      "tertiary-fixed-dim": "#a6c9f6",
+                      "secondary-fixed": "#aaedfd",
+                      "on-error-container": "#93000a",
+                      "tertiary": "#33567d",
+                      "inverse-surface": "#2e3132",
+                      "on-primary-container": "#e7efff",
+                      "outline-variant": "#c1c7d2",
+                      "on-secondary-fixed": "#001f25",
+                      "on-secondary-container": "#226b79",
+                      "primary-container": "#2f6faf",
+                      "on-surface-variant": "#414750",
+                      "on-primary-fixed": "#001c37",
+                      "on-tertiary-fixed-variant": "#24496e",
+                      "error-container": "#ffdad6",
+                      "tertiary-container": "#4c6f97",
+                      "on-tertiary": "#ffffff",
+                      "surface-dim": "#d9dadb",
+                      "surface-container-highest": "#e1e3e4",
+                      "on-surface": "#191c1d",
+                      "surface-bright": "#f8f9fa",
+                      "surface": "#f8f9fa",
+                      "on-tertiary-container": "#e7f0ff",
+                      "primary-fixed-dim": "#a0c9ff",
+                      "inverse-on-surface": "#f0f1f2",
+                      "surface-container-low": "#f3f4f5",
+                      "surface-container-high": "#e7e8e9",
+                      "background": "#f8f9fa",
+                      "error": "#ba1a1a",
+                      "on-primary": "#ffffff",
+                      "secondary": "#1c6775",
+                      "on-secondary-fixed-variant": "#004e5a",
+                      "secondary-fixed-dim": "#8ed1e0",
+                      "outline": "#727781",
+                      "surface-container-lowest": "#ffffff",
+                      "on-error": "#ffffff",
+                      "surface-container": "#edeeef"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "gutter": "24px",
+                      "container-max-width": "1200px",
+                      "margin-mobile": "16px",
+                      "unit": "8px",
+                      "margin-desktop": "40px"
+              },
+              "fontFamily": {
+                      "label-md": [
+                              "Public Sans"
+                      ],
+                      "headline-lg": [
+                              "Playfair Display"
+                      ],
+                      "body-md": [
+                              "Public Sans"
+                      ],
+                      "headline-md": [
+                              "Playfair Display"
+                      ],
+                      "title-lg": [
+                              "Public Sans"
+                      ],
+                      "display-xl": [
+                              "Playfair Display"
+                      ],
+                      "body-lg": [
+                              "Public Sans"
+                      ],
+                      "label-sm": [
+                              "Public Sans"
+                      ]
+              },
+              "fontSize": {
+                      "label-md": [
+                              "13px",
+                              {
+                                      "lineHeight": "18px",
+                                      "letterSpacing": "0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "title-lg": [
+                              "20px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "display-xl": [
+                              "48px",
+                              {
+                                      "lineHeight": "60px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-lg": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "fontWeight": "500"
+                              }
+                      ]
+              }
+            },
+          }
+        }
+      </script>
+</head>
+<body class="bg-surface text-on-surface font-body-md antialiased min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<!-- Main Content Canvas -->
+<main class="flex-grow flex flex-col items-center py-10 w-full px-margin-mobile md:px-0">
+<!-- Stepper Container -->
+<div class="w-full max-w-[1200px] flex flex-col gap-8 px-margin-mobile md:px-margin-desktop">
+<!-- Section A: Main Instructions -->
+<section class="bg-tertiary text-on-tertiary rounded-xl shadow-md p-6 md:p-8 border border-tertiary-container">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-headline-md">description</span>
+<h1 class="font-headline-md text-headline-md font-bold">Penilaian Permasalahan pada Proyek Design and Build (DB)</h1>
+</div>
+<div class="space-y-4 font-body-lg text-body-lg opacity-90">
+<p>Pada bagian ini, Bapak/Ibu akan diminta untuk memberikan penilaian terhadap permasalahan dan tantangan dalam penerapan metode Design and Build (DB).</p>
+<p>Penilaian dilakukan berdasarkan <strong class="font-bold">pengalaman dan kondisi nyata di lapangan</strong>, dengan mempertimbangkan dua aspek utama, yaitu:</p>
+<ul class="list-disc list-inside space-y-2 ml-2">
+<li><strong class="font-bold">Tingkat Kekerapan (Probability/Likelihood)</strong></li>
+<li><strong class="font-bold">Tingkat Keparahan Dampak (Impact/Criticality)</strong></li>
+</ul>
+</div>
+</section>
+<!-- Section B: Project Phases -->
+<section class="bg-secondary-container/30 border border-secondary-container rounded-xl p-6 md:p-8 shadow-sm">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-secondary text-headline-md">push_pin</span>
+<h2 class="font-headline-md text-title-lg font-bold text-on-surface">Fase Proyek yang Dinilai</h2>
+</div>
+<p class="mb-4 font-body-md text-on-surface-variant">Penilaian dilakukan pada setiap fase proyek Design and Build (DB), yaitu:</p>
+<ol class="list-decimal list-inside space-y-2 font-body-md text-on-surface-variant font-medium ml-2">
+<li>Inisiasi (Idea)</li>
+<li>Perencanaan (Planning)</li>
+<li>Perancangan Desain (Design)</li>
+<li>Pelaksanaan (Construction)</li>
+<li>Penggunaan (Operation &amp; Maintenance)</li>
+</ol>
+</section>
+<!-- Section C: Assessment Scale Tables -->
+<section class="bg-surface-container-lowest rounded-xl shadow-sm p-6 md:p-8 border border-outline-variant">
+<div class="flex items-center gap-3 mb-6">
+<span class="material-symbols-outlined text-primary text-headline-md">bar_chart</span>
+<h2 class="font-headline-md text-title-lg font-bold text-on-surface">Skala Penilaian</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<!-- Table A: Probability -->
+<div class="flex flex-col">
+<h3 class="font-label-md text-label-md text-on-surface-variant uppercase mb-3">a. Kekerapan (Probability/Likelihood)</h3>
+<div class="border border-outline-variant rounded-lg overflow-hidden bg-surface">
+<table class="w-full text-left border-collapse">
+<thead class="bg-surface-container-low border-b border-outline-variant">
+<tr>
+<th class="p-3 font-label-md text-label-md text-on-surface font-semibold w-20 border-r border-outline-variant text-center">Skor</th>
+<th class="p-3 font-label-md text-label-md text-on-surface font-semibold">Keterangan</th>
+</tr>
+</thead>
+<tbody class="font-body-md text-body-md text-on-surface">
+<tr class="border-b border-outline-variant hover:bg-surface-container-lowest transition-colors">
+<td class="p-3 text-center border-r border-outline-variant font-bold">0</td>
+<td class="p-3">Tidak Pernah Terjadi <span class="italic text-on-surface-variant">(Never Occurred)</span></td>
+</tr>
+<tr class="border-b border-outline-variant hover:bg-surface-container-lowest transition-colors">
+<td class="p-3 text-center border-r border-outline-variant font-bold">1</td>
+<td class="p-3">Jarang Terjadi <span class="italic text-on-surface-variant">(Rare)</span></td>
+</tr>
+<tr class="border-b border-outline-variant hover:bg-surface-container-lowest transition-colors">
+<td class="p-3 text-center border-r border-outline-variant font-bold">2</td>
+<td class="p-3">Kecil Kemungkinan Terjadi <span class="italic text-on-surface-variant">(Unlikely)</span></td>
+</tr>
+<tr class="border-b border-outline-variant hover:bg-surface-container-lowest transition-colors">
+<td class="p-3 text-center border-r border-outline-variant font-bold">3</td>
+<td class="p-3">Mungkin Terjadi <span class="italic text-on-surface-variant">(Possible)</span></td>
+</tr>
+<tr class="border-b border-outline-variant hover:bg-surface-container-lowest transition-colors">
+<td class="p-3 text-center border-r border-outline-variant font-bold">4</td>
+<td class="p-3">Mungkin Besar Terjadi <span class="italic text-on-surface-variant">(Likely)</span></td>
+</tr>
+<tr class="hover:bg-surface-container-lowest transition-colors">
+<td class="p-3 text-center border-r border-outline-variant font-bold">5</td>
+<td class="p-3">Hampir Pasti Terjadi <span class="italic text-on-surface-variant">(Almost Certain)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Table B: Impact -->
+<div class="flex flex-col">
+<h3 class="font-label-md text-label-md text-on-surface-variant uppercase mb-3">b. Keparahan Dampak (Impact/Criticality)</h3>
+<div class="border border-outline-variant rounded-lg overflow-hidden bg-surface">
+<table class="w-full text-left border-collapse">
+<thead class="bg-surface-container-low border-b border-outline-variant">
+<tr>
+<th class="p-3 font-label-md text-label-md text-on-surface font-semibold w-20 border-r border-outline-variant text-center">Skor</th>
+<th class="p-3 font-label-md text-label-md text-on-surface font-semibold">Keterangan</th>
+</tr>
+</thead>
+<tbody class="font-body-md text-body-md text-on-surface">
+<tr class="border-b border-outline-variant hover:bg-surface-container-lowest transition-colors">
+<td class="p-3 text-center border-r border-outline-variant font-bold">0</td>
+<td class="p-3">Tidak Ada Dampak <span class="italic text-on-surface-variant">(No Impact)</span></td>
+</tr>
+<tr class="border-b border-outline-variant hover:bg-surface-container-lowest transition-colors">
+<td class="p-3 text-center border-r border-outline-variant font-bold">1</td>
+<td class="p-3">Tidak Parah <span class="italic text-on-surface-variant">(Insignificant)</span></td>
+</tr>
+<tr class="border-b border-outline-variant hover:bg-surface-container-lowest transition-colors">
+<td class="p-3 text-center border-r border-outline-variant font-bold">2</td>
+<td class="p-3">Kecil <span class="italic text-on-surface-variant">(Minor)</span></td>
+</tr>
+<tr class="border-b border-outline-variant hover:bg-surface-container-lowest transition-colors">
+<td class="p-3 text-center border-r border-outline-variant font-bold">3</td>
+<td class="p-3">Sedang <span class="italic text-on-surface-variant">(Moderate)</span></td>
+</tr>
+<tr class="border-b border-outline-variant hover:bg-surface-container-lowest transition-colors">
+<td class="p-3 text-center border-r border-outline-variant font-bold">4</td>
+<td class="p-3">Besar <span class="italic text-on-surface-variant">(Major)</span></td>
+</tr>
+<tr class="hover:bg-surface-container-lowest transition-colors">
+<td class="p-3 text-center border-r border-outline-variant font-bold">5</td>
+<td class="p-3">Sangat Parah <span class="italic text-on-surface-variant">(Catastrophic)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<!-- Action Buttons -->
+<div class="flex flex-col sm:flex-row justify-between items-center mt-4 mb-12 gap-4">
+<button class="w-full sm:w-auto px-6 py-3 rounded-lg border border-outline-variant text-on-surface-variant bg-surface hover:bg-surface-container transition-colors font-label-md text-label-md flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-label-md">arrow_back</span>
+                    Kembali
+                </button>
+<button class="w-full sm:w-auto px-8 py-3 rounded-lg bg-primary text-on-primary hover:bg-surface-tint shadow-sm hover:shadow transition-all font-label-md text-label-md flex items-center justify-center gap-2">
+                    Mengerti, Lanjutkan
+                    <span class="material-symbols-outlined text-label-md">arrow_forward</span>
+</button>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-surface dark:bg-surface-dim text-on-surface dark:text-on-surface-variant font-body-md text-body-md full-width bottom-0 border-t border-outline-variant flat no shadows w-full py-unit flex flex-col items-center justify-center gap-2 mt-auto">
+<p>© 2024 Institut Teknologi Bandung. All rights reserved.</p>
+<div class="flex gap-4">
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md" href="#">Privacy Policy</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md" href="#">Terms of Service</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md" href="#">Contact</a>
+</div>
+</footer>
+</body></html>
