@@ -39,4 +39,10 @@ class QuestionController extends Controller
             'questions' => $questions,
         ]);
     }
+
+    public function getOpenQuestions(): JsonResponse
+    {
+        $questions = \App\Models\OpenQuestion::orderBy('order')->get();
+        return response()->json($questions);
+    }
 }

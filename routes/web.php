@@ -11,7 +11,9 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('api')->group(function () {
     // Public routes
     Route::get('/questions/{phase}', [QuestionController::class, 'getByPhase']);
+    Route::get('/open-questions', [QuestionController::class, 'getOpenQuestions']);
     Route::post('/questionnaire/submit', [QuestionnaireController::class, 'submit']);
+    Route::post('/respondents', [RespondentController::class, 'store']);
     
     // Admin routes
     Route::post('/admin/login', [AuthController::class, 'login']);
@@ -22,6 +24,9 @@ Route::prefix('api')->group(function () {
         // Admin functionality (Protected by Session)
         Route::get('/admin/dashboard/stats', [DashboardController::class, 'stats']);
         Route::get('/admin/respondents', [RespondentController::class, 'index']);
+        Route::get('/admin/respondents/{id}', [RespondentController::class, 'show']);
+        Route::put('/admin/respondents/{id}', [RespondentController::class, 'update']);
+        Route::delete('/admin/respondents/{id}', [RespondentController::class, 'destroy']);
         Route::get('/admin/risk-matrix/{phase}', [DashboardController::class, 'riskMatrix']);
         Route::get('/admin/average-scores/{phase}', [DashboardController::class, 'averageScores']);
         Route::delete('/admin/data/{phase}', [DashboardController::class, 'resetPhaseData']);

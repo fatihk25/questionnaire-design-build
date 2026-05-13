@@ -47,6 +47,7 @@ class RiskIndicatorSeeder extends Seeder
                 'Proses review dan persetujuan (approval) desain oleh Owner dan/atau Konsultan MK masih berlangsung lambat',
             ],
             'Desain dan Teknologi' => [
+                'Pemanfaatan BIM, Modular, dan IoT belum optimal dalam kolaborasi desain',
                 'Sering terjadi perubahan desain/lingkup dari Owner yang memicu addendum (bahkan melebihi 10%) dan menyebabkan keterlambatan proyek konstruksi',
                 'Terdapat permintaan perubahan/pekerjaan ulang (rework) dari Owner pada pekerjaan yang sudah selesai',
                 'Definisi variation dan prosedur perubahan desain dalam dokumen kontrak masih belum jelas, sehingga memicu konflik atau klaim dalam interpretasi kontrak Lump Sum Fixed Price ketika terjadi perubahan',
@@ -61,14 +62,14 @@ class RiskIndicatorSeeder extends Seeder
                 'Ketersediaan tenaga kerja terampil yang menguasai metode konstruksi modern dan teknologi spesifik proyek',
                 'Area penyimpanan material dan akses logistik di lokasi proyek yang masih terbatas',
                 'Penyusunan jadwal pelaksanaan oleh Kontraktor masih belum akurat',
-                'Koordinasi dan komunikasi antara Owner, Kontraktor, dan pihak terkait masih belum berjalan dengan baik',
+                'Koordinasi dan komunikasi antara Owner, Kontraktor, dan pihak terkait masih belum berjalan dengan baik, sehingga pengambilan keputusan oleh Owner sering terlambat',
                 'Proses pengawasan konstruksi dan inspeksi fisik di lapangan kurang efektif atau sering terlambat',
-                'Pelaksanaan proyek masih sering terganggu oleh faktor eksternal (cuaca ekstrem, bencana alam)',
+                'Pelaksanaan proyek masih sering terganggu oleh faktor eksternal, seperti cuaca ekstrem, hujan berkepanjangan, atau bencana alam',
                 'Menemukan kondisi geoteknik/tanah yang tidak terduga saat pelaksanaan konstruksi',
                 'Terjadinya kecelakaan kerja atau masalah kesehatan/penyakit menular di lokasi proyek',
                 'Tanggung jawab pemeliharaan antara Owner dan Kontraktor masih belum jelas',
                 'Dokumen as-built drawing masih belum lengkap dan/atau belum sesuai dengan kondisi lapangan',
-                'Proses audit oleh BPK/BPKP masih mengalami kesulitan karena perbedaan standar audit antara kontrak lump sum dan unit price',
+                'Proses audit oleh BPK/BPKP pada proyek Design and Build masih mengalami kesulitan karena perbedaan standar audit antara kontrak lump sum dan unit price',
             ],
         ];
 

@@ -17,11 +17,14 @@ class DashboardController extends Controller
         $totalRespondents = Respondent::count();
         $sections = QuestionSection::all();
         
+        $perPhaseCounts = ScoredAnswer::select('section_id', DB::raw('count(distinct respondent_id) as count'))
+            ->groupBy('section_id')
+            ->get()
+            ->pluck('count', 'section_id');
+
         $perPhase = [];
         foreach ($sections as $section) {
-            $perPhase[$section->key] = Respondent::whereHas('scoredAnswers', function ($q) use ($section) {
-                $q->where('section_id', $section->id);
-            })->count();
+            $perPhase[$section->key] = $perPhaseCounts->get($section->id, 0);
         }
 
         return response()->json([
@@ -61,21 +64,24 @@ class DashboardController extends Controller
             return response()->json(['message' => 'Phase not found'], 404);
         }
 
-        $indicators = RiskIndicator::with('aspect')->get();
-        $data = [];
+        $stats = ScoredAnswer::where('section_id', $section->id)
+            ->select(
+                'indicator_id',
+                DB::raw('AVG(probability_score) as avg_prob'),
+                DB::raw('AVG(impact_score) as avg_impact')
+            )
+            ->groupBy('indicator_id')
+            ->get()
+            ->keyBy('indicator_id');
 
-        foreach ($indicators as $indicator) {
-            $stats = ScoredAnswer::where('section_id', $section->id)
-                ->where('indicator_id', $indicator->id)
-                ->select(
-                    DB::raw('AVG(probability_score) as avg_prob'),
-                    DB::raw('AVG(impact_score) as avg_impact')
-                )->first();
+        $indicators = RiskIndicator::with('aspect')->orderBy('order')->get();
+        
+        $data = $indicators->map(function ($indicator) use ($stats) {
+            $indicatorStats = $stats->get($indicator->id);
+            $avgProb = (float)($indicatorStats->avg_prob ?? 0);
+            $avgImpact = (float)($indicatorStats->avg_impact ?? 0);
 
-            $avgProb = (float)($stats->avg_prob ?? 0);
-            $avgImpact = (float)($stats->avg_impact ?? 0);
-
-            $data[] = [
+            return [
                 'id' => $indicator->id,
                 'aspect' => $indicator->aspect->name,
                 'indicator' => $indicator->indicator_text,
@@ -83,7 +89,7 @@ class DashboardController extends Controller
                 'avgImpact' => round($avgImpact, 2),
                 'avgScore' => round($avgProb * $avgImpact, 2),
             ];
-        }
+        });
 
         return response()->json($data);
     }
