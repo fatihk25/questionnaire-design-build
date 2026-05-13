@@ -40,21 +40,30 @@ class DashboardController extends Controller
             return response()->json(['message' => 'Phase not found'], 404);
         }
 
+        // Menghitung jumlah entri (penilaian) untuk setiap kombinasi Probabilitas dan Dampak
+        // Data ini digunakan untuk melihat sebaran nilai 1-5 di dalam matriks 5x5
         $cells = ScoredAnswer::where('section_id', $section->id)
             ->select('probability_score as probability', 'impact_score as impact', DB::raw('count(*) as count'))
             ->groupBy('probability_score', 'impact_score')
             ->get();
 
-        $data = $cells->map(function ($cell) {
-            return [
-                'probability' => $cell->probability,
-                'impact' => $cell->impact,
-                'count' => $cell->count,
-                'score' => $cell->probability * $cell->impact,
-            ];
-        });
+        // Kita juga tambahkan info total responden unik yang berkontribusi di fase ini
+        $respondentCount = ScoredAnswer::where('section_id', $section->id)
+            ->distinct('respondent_id')
+            ->count('respondent_id');
 
-        return response()->json($data);
+        return response()->json([
+            'phase' => $phase,
+            'totalPhaseRespondents' => $respondentCount,
+            'matrix' => $cells->map(function ($cell) {
+                return [
+                    'probability' => $cell->probability,
+                    'impact' => $cell->impact,
+                    'count' => (int) $cell->count,
+                    'score' => $cell->probability * $cell->impact,
+                ];
+            })
+        ]);
     }
 
     public function averageScores(string $phase): JsonResponse
