@@ -46,7 +46,7 @@ class QuestionnaireController extends Controller
                         'message' => 'Anda sudah mengirimkan jawaban. Harap tunggu sebentar.',
                     ], 429);
                 }
-                cache()->put($cacheKey, true, 5);
+                cache()->put($cacheKey, true, 2);
 
                 $respondent = Respondent::create([
                     'name' => $identity['nama'],
@@ -64,40 +64,55 @@ class QuestionnaireController extends Controller
                 ]);
 
                 $answers = $request->input('answers');
-                $scoredCount = 0;
+                $scoredData = [];
+                
+                // Pre-fetch sections and valid indicators to avoid N+1 queries
+                $sections = QuestionSection::pluck('id', 'key');
+                $validIndicatorIds = \App\Models\RiskIndicator::pluck('id')->toArray();
+
                 foreach ($answers as $phaseKey => $questions) {
-                    $section = QuestionSection::where('key', $phaseKey)->first();
-                    if (!$section) continue;
+                    $sectionId = $sections[$phaseKey] ?? null;
+                    if (!$sectionId) continue;
 
                     foreach ($questions as $indicatorId => $scores) {
-                        if (!\App\Models\RiskIndicator::find($indicatorId)) continue;
-
-                        ScoredAnswer::create([
-                            'respondent_id' => $respondent->id,
-                            'section_id' => $section->id,
-                            'indicator_id' => $indicatorId,
-                            'probability_score' => $scores['probability'],
-                            'impact_score' => $scores['impact'],
-                        ]);
-                        $scoredCount++;
+                        if (in_array($indicatorId, $validIndicatorIds)) {
+                            $scoredData[] = [
+                                'respondent_id' => $respondent->id,
+                                'section_id' => $sectionId,
+                                'indicator_id' => $indicatorId,
+                                'probability_score' => $scores['probability'],
+                                'impact_score' => $scores['impact'],
+                                'created_at' => now(),
+                                'updated_at' => now(),
+                            ];
+                        }
                     }
                 }
 
-                if ($scoredCount === 0) {
+                if (!empty($scoredData)) {
+                    ScoredAnswer::insert($scoredData);
+                } else {
                     throw new \Exception('Data jawaban tidak valid atau indikator tidak ditemukan.');
                 }
 
-                $openQuestions = $request->input('openQuestions');
-                foreach ($openQuestions as $questionId => $answerText) {
-                    if (empty($answerText)) continue;
-                    
-                    if (!OpenQuestion::find($questionId)) continue;
+                $openQuestions = $request->input('openQuestions', []);
+                $openData = [];
+                $validOpenIds = OpenQuestion::pluck('id')->toArray();
 
-                    OpenAnswer::create([
-                        'respondent_id' => $respondent->id,
-                        'open_question_id' => $questionId,
-                        'answer_text' => $answerText,
-                    ]);
+                foreach ($openQuestions as $questionId => $answerText) {
+                    if (!empty($answerText) && in_array($questionId, $validOpenIds)) {
+                        $openData[] = [
+                            'respondent_id' => $respondent->id,
+                            'open_question_id' => $questionId,
+                            'answer_text' => $answerText,
+                            'created_at' => now(),
+                            'updated_at' => now(),
+                        ];
+                    }
+                }
+
+                if (!empty($openData)) {
+                    OpenAnswer::insert($openData);
                 }
 
                 return response()->json([
