@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
 import { useForm } from '@/contexts/FormContext';
 import { useI18n } from '@/contexts/I18nContext';
@@ -53,6 +54,7 @@ function sanitizeOpenQuestions(
 export default function CompletionPage() {
   const { state, dispatch } = useForm();
   const { t } = useI18n();
+  const navigate = useNavigate();
   const submittingRef = useRef(false);
   const [errorDetail, setErrorDetail] = useState<string | null>(null);
 
@@ -127,6 +129,16 @@ export default function CompletionPage() {
           <p className="mt-2 text-gray-600 dark:text-gray-400">
             {t('completion.success')}
           </p>
+          <Button
+            variant="primary"
+            className="mt-6"
+            onClick={() => {
+              dispatch({ type: 'RESET_FORM' });
+              navigate('/');
+            }}
+          >
+            Kembali ke Beranda
+          </Button>
         </Card>
       </div>
     );

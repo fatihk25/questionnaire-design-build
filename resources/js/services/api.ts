@@ -138,10 +138,40 @@ export async function fetchRespondents(phase?: PhaseKey): Promise<RespondentRow[
   return response.data;
 }
 
-export function downloadExcel(phase: PhaseKey | 'open'): void {
-  const baseURL = apiClient.defaults.baseURL || '/api';
-  const url = `${baseURL}/admin/export/${phase}`;
-  window.open(url, '_blank');
+export async function downloadExcel(phase: PhaseKey | 'open'): Promise<void> {
+  const XLSX = await import('xlsx');
+
+  if (phase === 'open') {
+    // Export pertanyaan terbuka (2 sheets: Data Responden + Jawaban Terbuka)
+    const response = await apiClient.get<{
+      respondents: Record<string, unknown>[];
+      answers: Record<string, unknown>[];
+    }>('/admin/export/open');
+    const { respondents, answers } = response.data;
+
+    const wb = XLSX.utils.book_new();
+    const ws1 = XLSX.utils.json_to_sheet(respondents);
+    XLSX.utils.book_append_sheet(wb, ws1, 'Data Responden');
+    const ws2 = XLSX.utils.json_to_sheet(answers);
+    XLSX.utils.book_append_sheet(wb, ws2, 'Jawaban Terbuka');
+
+    XLSX.writeFile(wb, 'Hasil_Pertanyaan_Terbuka.xlsx');
+  } else {
+    // Export data penilaian per fase (2 sheets: Data Responden + Detail Penilaian)
+    const response = await apiClient.get<{
+      respondents: Record<string, unknown>[];
+      scores: Record<string, unknown>[];
+    }>(`/admin/export/scored/${phase}`);
+    const { respondents, scores } = response.data;
+
+    const wb = XLSX.utils.book_new();
+    const ws1 = XLSX.utils.json_to_sheet(respondents);
+    XLSX.utils.book_append_sheet(wb, ws1, 'Data Responden');
+    const ws2 = XLSX.utils.json_to_sheet(scores);
+    XLSX.utils.book_append_sheet(wb, ws2, 'Detail Penilaian');
+
+    XLSX.writeFile(wb, `Hasil_Skoring_${phase}.xlsx`);
+  }
 }
 
 export async function resetPhaseData(phase: PhaseKey): Promise<void> {

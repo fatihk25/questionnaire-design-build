@@ -63,8 +63,13 @@ export default function AdminDashboardPage() {
     loadStats();
   }, [loadStats]);
 
-  const handleDownload = (phase: PhaseKey | 'open') => {
-    downloadExcel(phase);
+  const handleDownload = async (phase: PhaseKey | 'open') => {
+    try {
+      await downloadExcel(phase);
+    } catch (error) {
+      console.error('Gagal ekspor data:', error);
+      alert('Terjadi kesalahan saat mengunduh data. Pastikan Anda sudah login.');
+    }
   };
 
   const activePhase: PhaseKey = activeTab === 'all' ? 'inisiasi' : activeTab;

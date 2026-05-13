@@ -2,6 +2,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import type { ReactNode } from 'react';
+import { MemoryRouter } from 'react-router-dom';
 import CompletionPage from '@/pages/CompletionPage';
 import { FormProvider } from '@/contexts/FormContext';
 import { I18nProvider } from '@/contexts/I18nContext';
@@ -26,9 +27,11 @@ const mockSubmitQuestionnaire = vi.mocked(submitQuestionnaire);
  */
 function Wrapper({ children }: { children: ReactNode }) {
   return (
-    <I18nProvider>
-      <FormProvider>{children}</FormProvider>
-    </I18nProvider>
+    <MemoryRouter>
+      <I18nProvider>
+        <FormProvider>{children}</FormProvider>
+      </I18nProvider>
+    </MemoryRouter>
   );
 }
 

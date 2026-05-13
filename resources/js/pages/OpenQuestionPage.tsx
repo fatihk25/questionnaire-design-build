@@ -1,27 +1,23 @@
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from '@/contexts/FormContext';
 import { useI18n } from '@/contexts/I18nContext';
 import { Card, TextareaField, Button } from '@/components/ui';
+import { apiClient } from '@/services/api';
+
+interface OpenQuestion {
+  id: number;
+  question_text: string;
+  order: number;
+}
 
 /**
- * Open-ended questions matching the database IDs from OpenQuestionSeeder.
- * Backend expects numeric IDs (1, 2, 3) for OpenQuestion::find().
+ * Fallback questions if API is unavailable.
  */
-const openQuestions = [
-  {
-    id: '1',
-    label:
-      'Apa risiko paling signifikan yang Anda temui dalam proyek Design and Build?',
-  },
-  {
-    id: '2',
-    label: 'Apa saran Anda untuk mitigasi risiko tersebut?',
-  },
-  {
-    id: '3',
-    label:
-      'Apakah ada risiko lain yang belum tercakup dalam kuesioner ini?',
-  },
+const FALLBACK_QUESTIONS: OpenQuestion[] = [
+  { id: 1, order: 1, question_text: 'Apa risiko paling signifikan yang Anda temui dalam proyek Design and Build?' },
+  { id: 2, order: 2, question_text: 'Apa saran Anda untuk mitigasi risiko tersebut?' },
+  { id: 3, order: 3, question_text: 'Apakah ada risiko lain yang belum tercakup dalam kuesioner ini?' },
 ];
 
 const MAX_LENGTH = 500;
@@ -37,6 +33,22 @@ export default function OpenQuestionPage() {
   const { state, dispatch } = useForm();
   const { t } = useI18n();
   const navigate = useNavigate();
+  const [questions, setQuestions] = useState<OpenQuestion[]>(FALLBACK_QUESTIONS);
+
+  // Fetch open questions from API
+  useEffect(() => {
+    async function load() {
+      try {
+        const res = await apiClient.get<OpenQuestion[]>('/open-questions');
+        if (Array.isArray(res.data) && res.data.length > 0) {
+          setQuestions(res.data);
+        }
+      } catch {
+        // Use fallback
+      }
+    }
+    load();
+  }, []);
 
   const handleChange = (questionId: string, value: string) => {
     dispatch({
@@ -62,13 +74,13 @@ export default function OpenQuestionPage() {
         {t('openQuestion.subtitle')}
       </p>
 
-      {openQuestions.map((question, index) => (
+      {questions.map((question, index) => (
         <Card key={question.id} variant="default" className="p-6">
           <TextareaField
-            label={`${index + 1}. ${question.label}`}
-            name={question.id}
-            value={state.openQuestions[question.id] || ''}
-            onChange={(value) => handleChange(question.id, value)}
+            label={`${index + 1}. ${question.question_text}`}
+            name={String(question.id)}
+            value={state.openQuestions[String(question.id)] || ''}
+            onChange={(value) => handleChange(String(question.id), value)}
             maxLength={MAX_LENGTH}
             rows={4}
             placeholder={t('openQuestion.placeholder')}
