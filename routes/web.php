@@ -31,6 +31,11 @@ Route::prefix('api')->group(function () {
         Route::get('/admin/average-scores/{phase}', [DashboardController::class, 'averageScores']);
         Route::delete('/admin/data/{phase}', [DashboardController::class, 'resetPhaseData']);
         
+        // Export routes for Frontend Excel generation
+        Route::get('/admin/export/scored/{phase}', [DashboardController::class, 'exportScoredAnswers']);
+        Route::get('/admin/export/open', [DashboardController::class, 'exportOpenAnswers']);
+        Route::get('/admin/indicators/mapping', [DashboardController::class, 'getIndicatorsMapping']);
+        
         // Export route placeholder
         Route::get('/admin/export/{phase}', function($phase) {
             return response()->json(['message' => 'Export not implemented yet'], 501);

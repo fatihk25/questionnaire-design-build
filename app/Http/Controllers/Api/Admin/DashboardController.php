@@ -7,6 +7,8 @@ use App\Models\Respondent;
 use App\Models\QuestionSection;
 use App\Models\ScoredAnswer;
 use App\Models\RiskIndicator;
+use App\Models\OpenAnswer;
+use App\Models\OpenQuestion;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 
@@ -113,5 +115,107 @@ class DashboardController extends Controller
         ScoredAnswer::where('section_id', $section->id)->delete();
 
         return response()->json(['success' => true]);
+    }
+
+    public function exportScoredAnswers(string $phase): JsonResponse
+    {
+        $section = QuestionSection::where('key', $phase)->first();
+        if (!$section) {
+            return response()->json(['message' => 'Phase not found'], 404);
+        }
+
+        // --- Sheet 1 Data: Master Responden ---
+        $respondents = Respondent::whereHas('scoredAnswers', function ($q) use ($section) {
+            $q->where('section_id', $section->id);
+        })->get();
+
+        $respondentSheet = $respondents->map(function ($r) {
+            return [
+                'ID Responden' => $r->id,
+                'Nama' => $r->name,
+                'Instansi' => $r->institution,
+                'Telepon' => $r->phone,
+                'Email' => $r->email,
+                'Posisi' => $r->stakeholder_position,
+                'Pendidikan' => $r->education,
+                'Pengalaman Konstruksi' => $r->construction_experience,
+                'Pengalaman Proyek DB' => $r->db_experience,
+                'Sektor' => $r->sector,
+                'Waktu Submit' => $r->created_at->format('Y-m-d H:i:s'),
+            ];
+        });
+
+        // --- Sheet 2 Data: Detail Penilaian (Long Format) ---
+        $scoredAnswers = ScoredAnswer::where('section_id', $section->id)
+            ->with(['respondent', 'indicator.aspect'])
+            ->get();
+
+        $scoreSheet = $scoredAnswers->map(function ($ans) {
+            return [
+                'ID Responden' => $ans->respondent_id,
+                'Nama Responden' => $ans->respondent->name,
+                'Aspek' => $ans->indicator->aspect->name,
+                'Indikator Risiko' => $ans->indicator->indicator_text,
+                'Probabilitas (P)' => $ans->probability_score,
+                'Dampak (I)' => $ans->impact_score,
+                'Skor Risiko (P x I)' => $ans->probability_score * $ans->impact_score,
+            ];
+        });
+
+        return response()->json([
+            'respondents' => $respondentSheet,
+            'scores' => $scoreSheet
+        ]);
+    }
+
+    public function exportOpenAnswers(): JsonResponse
+    {
+        // --- Sheet 1 Data: Master Responden ---
+        $respondents = Respondent::whereHas('openAnswers')->get();
+
+        $respondentSheet = $respondents->map(function ($r) {
+            return [
+                'ID Responden' => $r->id,
+                'Nama' => $r->name,
+                'Instansi' => $r->institution,
+                'Telepon' => $r->phone,
+                'Email' => $r->email,
+                'Waktu Submit' => $r->created_at->format('Y-m-d H:i:s'),
+            ];
+        });
+
+        // --- Sheet 2 Data: Detail Jawaban Terbuka (Long Format) ---
+        $openAnswers = OpenAnswer::with(['respondent', 'openQuestion'])
+            ->get();
+
+        $answerSheet = $openAnswers->map(function ($ans) {
+            return [
+                'ID Responden' => $ans->respondent_id,
+                'Nama Responden' => $ans->respondent->name,
+                'Pertanyaan Terbuka' => $ans->openQuestion->question_text,
+                'Jawaban' => $ans->answer_text,
+            ];
+        });
+
+        return response()->json([
+            'respondents' => $respondentSheet,
+            'answers' => $answerSheet
+        ]);
+    }
+
+    public function getIndicatorsMapping(): JsonResponse
+    {
+        $indicators = RiskIndicator::with('aspect')->orderBy('order')->get();
+        
+        $mapping = $indicators->map(function ($indicator, $index) {
+            return [
+                'id' => $indicator->id,
+                'label' => 'R' . ($index + 1),
+                'text' => $indicator->indicator_text,
+                'aspect' => $indicator->aspect->name
+            ];
+        });
+
+        return response()->json($mapping);
     }
 }
